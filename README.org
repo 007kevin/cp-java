@@ -1,0 +1,5 @@
+* Codeforces Java
+Java setup for solving codeforces problems
+** Problem list
+https://codeforces.com/problemset/page/1?tags=1400-1600
+https://codeforces.com/problemset/page/1?tags=1500-1700
