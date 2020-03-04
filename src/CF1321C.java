@@ -1,5 +1,3 @@
-package codeforces;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,12 +6,12 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 /**
- * Problem CF1303C
+ * Problem CF1321C
  */
-public class CF1303C {
+public class CF1321C {
 
-    static class Task {
-        public void run(InputReader in, PrintWriter out) {
+    static class Task extends IOHandler {
+        public void run() {
 
         }
     }
@@ -22,10 +20,18 @@ public class CF1303C {
      *                      BOILERPLATE                        *
      ***********************************************************/
     public static void main(String[] args) {
-        InputReader in = new InputReader(System.in);
-        PrintWriter out = new PrintWriter(System.out);
-        new Task().run(in, out);
-        out.close();
+        Task task = new Task();
+        task.run();
+        task.cleanup();
+    }
+
+    static class IOHandler {
+        public InputReader in = new InputReader(System.in);
+        public PrintWriter out = new PrintWriter(System.out);
+
+        public void cleanup() {
+            out.close();
+        }
     }
 
     static class InputReader {
@@ -56,4 +62,5 @@ public class CF1303C {
             return Long.parseLong(next());
         }
     }
+
 }
