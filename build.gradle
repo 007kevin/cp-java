@@ -9,9 +9,20 @@
 plugins {
     // Apply the java plugin to add support for Java
     id 'java'
+    id 'eclipse'
 
     // Apply the application plugin to add support for building a CLI application.
     id 'application'
+
+    // Lombok
+    id "io.freefair.lombok" version "5.0.0-rc6"
+}
+
+eclipse {
+    classpath {
+        downloadJavadoc = true
+        downloadSources = true
+    }
 }
 
 repositories {
@@ -50,7 +61,9 @@ test {
 }
 
 task runMain(type: JavaExec) {
-    classpath sourceSets.main.runtimeClasspath
-    standardInput = System.in
-    main = className
+    if (project.hasProperty('className')) {
+        classpath sourceSets.main.runtimeClasspath
+        standardInput = System.in
+        main = className
+    }
 }

@@ -3,42 +3,63 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.math.BigInteger;
 import java.util.StringTokenizer;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
- * Problem CF1321C
+ * Problem CF1409D
  */
-public class CF1321C {
+public class CF1409D {
 
     static class Task extends IOHandler {
         public void run() {
-            int n = in.nextInt();
-            String s = in.next();
-            String a = "zyxwvutsrqponmlkjihgfedcba";
-            for(int i = 0; i < a.length(); ++i) {
-                s = remove(a.charAt(i), s);
+            int t = in.nextInt();
+            for (int i = 0; i < t; ++i) {
+                System.out.println(new N(in.next()).solve(in.nextInt()));
             }
-            out.print(n - s.length());
+        }
+    }
+
+    static class N {
+        long sumOfDigits = 0;
+        int n[] = new int[20];
+
+        public N(final String n) {
+            StringBuilder sb = new StringBuilder(n).reverse();
+            for(int i = 0; i < sb.length(); ++i) {
+                int v = Character.getNumericValue(sb.charAt(i));
+                sumOfDigits+=v;
+                this.n[i] = v;
+            }
         }
 
-        public String remove(char c, String s) {
-            String r="";
-            for(int i = 0; i < s.length(); ++i) {
-                if (s.charAt(i) == c) {
-                    out.print(c);
-                    if (!((i!=0&&(s.charAt(i-1)+1)==c) || (i!=s.length()-1&&(s.charAt(i+1)+1)==c))) {
-                        r += c;
+        public BigInteger solve(int s) {
+            BigInteger moves = BigInteger.ZERO;
+            int i = 0;
+            while(sumOfDigits > s) {
+                if (n[i] == 0){
+                    i++;
+                    continue;
+                }
+
+                moves = moves.add(BigInteger.valueOf((long)((10-(n[i])) * Math.pow(10, i))));
+                for(int j = i+1; j < 20; ++j) {
+                    if ((n[j] + 1) % 10 == 0){
+                        n[j]=0;
+                        sumOfDigits-=9;
+                    } else {
+                        n[j]++;
+                        sumOfDigits+=1;
+                        break;
                     }
                 }
+                sumOfDigits-=n[i];
+                i++;
             }
-            return r;
+            return moves;
         }
 
+        
     }
 
     /***********************************************************

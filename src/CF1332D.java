@@ -3,41 +3,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 import java.util.StringTokenizer;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
- * Problem CF1321C
+ * Problem CF1332D
  */
-public class CF1321C {
+public class CF1332D {
 
     static class Task extends IOHandler {
         public void run() {
-            int n = in.nextInt();
-            String s = in.next();
-            String a = "zyxwvutsrqponmlkjihgfedcba";
-            for(int i = 0; i < a.length(); ++i) {
-                s = remove(a.charAt(i), s);
-            }
-            out.print(n - s.length());
-        }
 
-        public String remove(char c, String s) {
-            String r="";
-            for(int i = 0; i < s.length(); ++i) {
-                if (s.charAt(i) == c) {
-                    out.print(c);
-                    if (!((i!=0&&(s.charAt(i-1)+1)==c) || (i!=s.length()-1&&(s.charAt(i+1)+1)==c))) {
-                        r += c;
-                    }
-                }
-            }
-            return r;
         }
+    }
+
+
+    static class Test {
 
     }
 

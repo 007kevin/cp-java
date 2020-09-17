@@ -3,42 +3,38 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 import java.util.StringTokenizer;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
- * Problem CF1321C
+ * Problem CF1332C
  */
-public class CF1321C {
+public class CF1332C {
 
     static class Task extends IOHandler {
         public void run() {
-            int n = in.nextInt();
-            String s = in.next();
-            String a = "zyxwvutsrqponmlkjihgfedcba";
-            for(int i = 0; i < a.length(); ++i) {
-                s = remove(a.charAt(i), s);
-            }
-            out.print(n - s.length());
+            int t = in.nextInt();
+            for(int i = 0; i < t; ++i)
+                out.println(solve(in.nextInt(),in.nextInt(),in.next()));
+
         }
 
-        public String remove(char c, String s) {
-            String r="";
-            for(int i = 0; i < s.length(); ++i) {
-                if (s.charAt(i) == c) {
-                    out.print(c);
-                    if (!((i!=0&&(s.charAt(i-1)+1)==c) || (i!=s.length()-1&&(s.charAt(i+1)+1)==c))) {
-                        r += c;
-                    }
+        private int solve(final int n, final int k, final String s) {
+            int arr[][] = new int[k][256], r=0;
+            for(int i = 0; i < n; ++i)
+                arr[i%k][s.codePointAt(i)]++;
+            for(int i = 0; i <= k/2; ++i){
+                if(i>k-i-1) break;
+                int c = Integer.MAX_VALUE;
+                for(int j = 'a'; j <= 'z'; ++j){
+                    if(i==k-i-1)
+                        c=Math.min(c, n/k - arr[i][j]);
+                    else
+                        c=Math.min(c, 2*n/k -arr[i][j] - arr[k-i-1][j]);
                 }
+                r+=c;
             }
             return r;
         }
-
     }
 
     /***********************************************************
