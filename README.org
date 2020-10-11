@@ -1,5 +1,8 @@
+#+STARTUP: showeverything
 * Codeforces Java
 Java setup for solving codeforces problems
 ** Problem list
 https://codeforces.com/problemset/page/1?tags=1400-1600
 https://codeforces.com/problemset?order=BY_SOLVED_DESC&tags=1500-1700
+https://codeforces.com/problemset?order=BY_SOLVED_DESC&tags=1600-1700
+

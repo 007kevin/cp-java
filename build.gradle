@@ -67,3 +67,16 @@ task runMain(type: JavaExec) {
         main = className
     }
 }
+
+task create {
+    doLast {
+        if (project.hasProperty('className')) {
+            exec {
+                executable 'echo'
+                args className
+            }
+        }
+    }
+}
+
+
