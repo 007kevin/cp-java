@@ -3,18 +3,38 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.StringTokenizer;
 
 /**
- * Problem Template
+ * Problem CF1443C
  */
 @SuppressWarnings("unchecked")
-public class Template {
+public class CF1443C {
 
     static class Task extends IOHandler {
         public void run() {
-            
+            int t = in.nextInt();
+            while(t--!=0){
+                Long n = in.nextLong();
+                List<Pair<Long, Long>> p = new ArrayList<>();
+                for(int i = 0; i < n; ++i)
+                    p.add(new Pair<Long,Long>(in.nextLong(),0L));
+                for(int i = 0; i < n; ++i)
+                    p.get(i).b=in.nextLong();
+                Collections.sort(p, Collections.reverseOrder());
+                Long sum=0L;
+                Long ans=Long.MAX_VALUE;
+                for(Pair<Long, Long> i : p){
+                    ans=Math.min(ans, Math.max(i.a, sum));
+                    sum+=i.b;
+                }
+                ans=Math.min(ans, sum);
+                out.println(ans);
+            }
         }
     }
 
