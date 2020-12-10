@@ -3,37 +3,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
 import java.util.StringTokenizer;
 
 /**
- * Problem CF1443C
+ * Problem CF1457A
  */
-@SuppressWarnings("unchecked")
-public class CF1443C {
+public class CF1457A {
 
     static class Task extends IOHandler {
         public void run() {
             int t = in.nextInt();
-            while(t--!=0){
-                var n = in.nextLong();
-                List<Pair<Long, Long>> p = new ArrayList<>();
-                for(int i = 0; i < n; ++i)
-                    p.add(new Pair<Long,Long>(in.nextLong(),0L));
-                for(int i = 0; i < n; ++i)
-                    p.get(i).b=in.nextLong();
-                Collections.sort(p, Collections.reverseOrder());
-                Long sum=0L;
-                Long ans=Long.MAX_VALUE;
-                for(var i : p){
-                    ans=Math.min(ans, Math.max(i.a, sum));
-                    sum+=i.b;
-                }
-                ans=Math.min(ans, sum);
-                out.println(ans);
+            while(t-->0){
+                long n=in.nextLong();
+                long m=in.nextLong();
+                long r=in.nextLong();
+                long c=in.nextLong();
+                out.println(Collections.max(Arrays.asList(
+                        n-r+c-1,
+                        m-c+n-r,
+                        m-c+r-1,
+                        r-1+c-1)));
             }
         }
     }
@@ -41,43 +32,14 @@ public class CF1443C {
     /***********************************************************
      *                        COMMONS                          *
      ***********************************************************/
-	static class Pair<A, B> implements Comparable<Pair<A, B>> {
-		public A a;
-		public B b;
-		public Pair(Pair<A, B> p) {
-			this(p.a, p.b);
-		}
-
-		public Pair(A a, B b) {
-			this.a = a;
-			this.b = b;
-		}
- 
-		public String toString() {
-			return a+" "+b;
-		}
- 
-		public int hashCode() {
-			return Objects.hash(a, b);
-		}
- 
-		public boolean equals(Object o) {
-			if(o instanceof Pair) {
-				Pair<A,B> p = (Pair<A,B>) o;
-				return a.equals(p.a)&&b.equals(p.b);
-			}
-			return false;
-		}
- 
-        @Override
-		public int compareTo(Pair<A, B> p) {
-			int cmp = ((Comparable<A>) a).compareTo(p.a);
-			if(cmp==0) {
-				return ((Comparable<B>) b).compareTo(p.b);
-			}
-			return cmp;
-		}
-	}
+    static class Pair<A,B> {
+        public final A a;
+        public final B b;
+        public Pair(A a, B b) {
+            this.a=a;
+            this.b=b;
+        }
+    }
 
     /***********************************************************
      *                      BOILERPLATE                        *

@@ -3,81 +3,86 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import java.util.StringTokenizer;
 
 /**
- * Problem CF1443C
+ * Problem CF1368C
  */
 @SuppressWarnings("unchecked")
-public class CF1443C {
+public class CF1368C {
 
     static class Task extends IOHandler {
         public void run() {
-            int t = in.nextInt();
-            while(t--!=0){
-                var n = in.nextLong();
-                List<Pair<Long, Long>> p = new ArrayList<>();
-                for(int i = 0; i < n; ++i)
-                    p.add(new Pair<Long,Long>(in.nextLong(),0L));
-                for(int i = 0; i < n; ++i)
-                    p.get(i).b=in.nextLong();
-                Collections.sort(p, Collections.reverseOrder());
-                Long sum=0L;
-                Long ans=Long.MAX_VALUE;
-                for(var i : p){
-                    ans=Math.min(ans, Math.max(i.a, sum));
-                    sum+=i.b;
-                }
-                ans=Math.min(ans, sum);
-                out.println(ans);
+            int n = in.nextInt();
+            out.println(8 + (n*7));
+            print(0,0);
+            for(long i = 0L; i <= n; ++i) {
+                printCoords(i);
             }
         }
+
+        private void printCoords(long i) {
+            long x = i*2;
+            long y = i*2;
+            print(x+1,y);
+            print(x+2,y);
+
+            print(x,y+1);
+            print(x+2,y+1);
+
+            print(x,y+2);
+            print(x+1,y+2);
+            print(x+2,y+2);
+        }
+
+        private void print(long x, long y) {
+            out.println(x + " " + y);
+        }
+
+
     }
 
     /***********************************************************
      *                        COMMONS                          *
      ***********************************************************/
-	static class Pair<A, B> implements Comparable<Pair<A, B>> {
-		public A a;
-		public B b;
-		public Pair(Pair<A, B> p) {
-			this(p.a, p.b);
-		}
+    static class Pair<A, B> implements Comparable<Pair<A, B>> {
+        public A a;
+        public B b;
+        public Pair(Pair<A, B> p) {
+            this(p.a, p.b);
+        }
 
-		public Pair(A a, B b) {
-			this.a = a;
-			this.b = b;
-		}
+        public Pair(A a, B b) {
+            this.a = a;
+            this.b = b;
+        }
  
-		public String toString() {
-			return a+" "+b;
-		}
+        public String toString() {
+            return a+" "+b;
+        }
  
-		public int hashCode() {
-			return Objects.hash(a, b);
-		}
+        public int hashCode() {
+            return Objects.hash(a, b);
+        }
  
-		public boolean equals(Object o) {
-			if(o instanceof Pair) {
-				Pair<A,B> p = (Pair<A,B>) o;
-				return a.equals(p.a)&&b.equals(p.b);
-			}
-			return false;
-		}
+        public boolean equals(Object o) {
+            if(o instanceof Pair) {
+                Pair<A,B> p = (Pair<A,B>) o;
+                return a.equals(p.a)&&b.equals(p.b);
+            }
+            return false;
+        }
  
         @Override
-		public int compareTo(Pair<A, B> p) {
-			int cmp = ((Comparable<A>) a).compareTo(p.a);
-			if(cmp==0) {
-				return ((Comparable<B>) b).compareTo(p.b);
-			}
-			return cmp;
-		}
-	}
+        public int compareTo(Pair<A, B> p) {
+            int cmp = ((Comparable<A>) a).compareTo(p.a);
+            if(cmp==0) {
+                return ((Comparable<B>) b).compareTo(p.b);
+            }
+            return cmp;
+        }
+    }
 
     /***********************************************************
      *                      BOILERPLATE                        *

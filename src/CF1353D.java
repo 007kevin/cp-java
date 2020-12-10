@@ -3,37 +3,45 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 /**
- * Problem CF1443C
+ * Problem CF1353D
  */
 @SuppressWarnings("unchecked")
-public class CF1443C {
+public class CF1353D {
 
     static class Task extends IOHandler {
         public void run() {
             int t = in.nextInt();
             while(t--!=0){
-                var n = in.nextLong();
-                List<Pair<Long, Long>> p = new ArrayList<>();
-                for(int i = 0; i < n; ++i)
-                    p.add(new Pair<Long,Long>(in.nextLong(),0L));
-                for(int i = 0; i < n; ++i)
-                    p.get(i).b=in.nextLong();
-                Collections.sort(p, Collections.reverseOrder());
-                Long sum=0L;
-                Long ans=Long.MAX_VALUE;
-                for(var i : p){
-                    ans=Math.min(ans, Math.max(i.a, sum));
-                    sum+=i.b;
+                int n = in.nextInt();
+                int[] a = new int[n];
+                var pq = new PriorityQueue<Pair<Integer,Integer>>(10, (x,y) -> {
+                    int lenx = x.b-x.a;
+                    int leny = y.b-y.a;
+                    if(lenx==leny){
+                        if (x.a < y.a) return -1;
+                        else return 1;
+                    }
+                    if(lenx>leny) return -1;
+                    return 1;
+                });
+                pq.add(new Pair<>(0,n));
+                int i = 1;
+                while(!pq.isEmpty()){
+                    var v = pq.poll();
+                    var s = v.a+v.b;
+                    var m = s%2==0?(s-1)/2:s/2;
+                    a[m]=i++;
+                    if(v.a!=m) pq.add(new Pair<>(v.a,m));
+                    if(m+1!=v.b) pq.add(new Pair<>(m+1, v.b));
                 }
-                ans=Math.min(ans, sum);
-                out.println(ans);
+                for(int j = 0; j < n; ++j)
+                    out.print(a[j] + " ");
+                out.println();
             }
         }
     }
@@ -41,43 +49,43 @@ public class CF1443C {
     /***********************************************************
      *                        COMMONS                          *
      ***********************************************************/
-	static class Pair<A, B> implements Comparable<Pair<A, B>> {
-		public A a;
-		public B b;
-		public Pair(Pair<A, B> p) {
-			this(p.a, p.b);
-		}
+    static class Pair<A, B> implements Comparable<Pair<A, B>> {
+        public A a;
+        public B b;
+        public Pair(Pair<A, B> p) {
+            this(p.a, p.b);
+        }
 
-		public Pair(A a, B b) {
-			this.a = a;
-			this.b = b;
-		}
+        public Pair(A a, B b) {
+            this.a = a;
+            this.b = b;
+        }
  
-		public String toString() {
-			return a+" "+b;
-		}
+        public String toString() {
+            return a+" "+b;
+        }
  
-		public int hashCode() {
-			return Objects.hash(a, b);
-		}
+        public int hashCode() {
+            return Objects.hash(a, b);
+        }
  
-		public boolean equals(Object o) {
-			if(o instanceof Pair) {
-				Pair<A,B> p = (Pair<A,B>) o;
-				return a.equals(p.a)&&b.equals(p.b);
-			}
-			return false;
-		}
+        public boolean equals(Object o) {
+            if(o instanceof Pair) {
+                Pair<A,B> p = (Pair<A,B>) o;
+                return a.equals(p.a)&&b.equals(p.b);
+            }
+            return false;
+        }
  
         @Override
-		public int compareTo(Pair<A, B> p) {
-			int cmp = ((Comparable<A>) a).compareTo(p.a);
-			if(cmp==0) {
-				return ((Comparable<B>) b).compareTo(p.b);
-			}
-			return cmp;
-		}
-	}
+        public int compareTo(Pair<A, B> p) {
+            int cmp = ((Comparable<A>) a).compareTo(p.a);
+            if(cmp==0) {
+                return ((Comparable<B>) b).compareTo(p.b);
+            }
+            return cmp;
+        }
+    }
 
     /***********************************************************
      *                      BOILERPLATE                        *

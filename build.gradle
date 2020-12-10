@@ -73,10 +73,7 @@ task create(type: Exec)  {
     commandLine './create.sh'
     if (project.hasProperty('problem')) {
         args(problem)
-    } else {
-        println "Missing parameter -Pproblem=<name>"
     }
-
     // logging.captureStandardOutput LogLevel.INFO
     // doFirst {
     //     println "hello"
