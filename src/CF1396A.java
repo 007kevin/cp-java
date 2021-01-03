@@ -1,20 +1,40 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.util.Objects;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 /**
- * Problem Template
+ * Problem CF1396A
  */
 @SuppressWarnings("unchecked")
-public class Template {
+public class CF1396A {
 
     static class Task extends IOHandler {
         public void run() {
-            
+            int n = in.nextInt();
+            long a[] = in.nextLongs(n);
+            if(n == 1) {
+                out.println("1 1");
+                out.println(-a[0]);
+                out.println("1 1");
+                out.println(0);
+                out.println("1 1");
+                out.println(0);
+            } else {
+                out.println("%s %s", 1, n-1);
+                for(int i = 0; i < n-1; ++i){
+                    long x = a[i]%n;
+                    out.print("%s ",  x*(n-1));
+                    a[i]+=x*(n-1);
+                }
+                out.println();
+                out.println("%s %s", n, n);
+                out.println("%s", n-(a[n-1]%n));
+                a[n-1]+=n-(a[n-1]%n);
+                out.println("%s %s", 1, n);
+                for(int i = 0; i < n; ++i){
+                    out.print("%s ", -a[i]);
+                }
+                out.println();
+            }
         }
     }
 
@@ -32,15 +52,15 @@ public class Template {
             this.a = a;
             this.b = b;
         }
- 
+
         public String toString() {
             return a+" "+b;
         }
- 
+
         public int hashCode() {
             return Objects.hash(a, b);
         }
- 
+
         public boolean equals(Object o) {
             if(o instanceof Pair) {
                 Pair<A,B> p = (Pair<A,B>) o;
@@ -48,7 +68,7 @@ public class Template {
             }
             return false;
         }
- 
+
         @Override
         public int compareTo(Pair<A, B> p) {
             int cmp = ((Comparable<A>) a).compareTo(p.a);
@@ -70,7 +90,7 @@ public class Template {
 
     static class IOHandler {
         public InputReader in = new InputReader(System.in);
-        public PrintWriter out = new PrintWriter(System.out);
+        public OutputWriter out = new OutputWriter(System.out);
 
         public void cleanup() {
             out.close();
@@ -101,6 +121,13 @@ public class Template {
             return Integer.parseInt(next());
         }
 
+        public int[] nextInts(int n) {
+            int a[] = new int[n];
+            for(int i = 0; i < n; ++i)
+                a[i] = nextInt();
+            return a;
+        }
+
         public long nextLong() {
             return Long.parseLong(next());
         }
@@ -110,7 +137,21 @@ public class Template {
             for(int i = 0; i < n; ++i)
                 a[i] = nextLong();
             return a;
-        }        
+        }
+    }
+
+    static class OutputWriter extends PrintWriter {
+        public OutputWriter(OutputStream out) {
+            super(out);
+        }
+
+        public void println(String format, Object... args) {
+            this.println(String.format(format, args));
+        }
+
+        public void print(String format, Object... args) {
+            this.print(String.format(format, args));
+        }
     }
 
 }
