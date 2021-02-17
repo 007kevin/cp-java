@@ -7,29 +7,41 @@ import java.util.Objects;
 import java.util.StringTokenizer;
 
 /**
- * Problem CF1352F
+ * Problem CF1359C
+ *
+ * tag: Math
+ *
+ * Read editorial: https://codeforces.com/blog/entry/78116
+ * TODO: Work on math
+ *
  */
 @SuppressWarnings("unchecked")
-public class CF1352F {
+public class CF1359C {
 
     static class Task extends IOHandler {
         public void run() {
-            int t = in.nextInt();
-            while(t-->0){
-                int n0=in.nextInt();
-                int n1=in.nextInt();
-                int n2=in.nextInt();
-                String a=n2>0?"1":"0";
-                while(n2-->0) a+="1";
-                while(n1-->0) a+=a.charAt(a.length()-1)=='0'?"1":"0";
-                if(a.charAt(a.length()-1)=='0')
-                    while(n0-->0) a+="0";
-                else{
-                    a=a.substring(0,a.length()-1);
-                    while(n0-->0) a+="0";
-                    a+="1";
+            int T = in.nextInt();
+            while(T-->0) {
+                long h = in.nextLong();
+                long c = in.nextLong();
+                long t = in.nextLong();
+                double m = (h+c)/2.0;
+                if(t<=m) {
+                    out.println("2");
+                } else if (t >= h) {
+                    out.println("1");
+                } else {
+                    long a = h-t;
+                    long b = 2*t - h - c;
+                    long k = a/b;
+                    long v1 = Math.abs(k*(h+c)+h-t*(2*k+1))*(2*k+3);
+                    long v2 = Math.abs((k+1)*(h+c)+h-t*(2*k+3))*(2*k+1);
+                    out.println(v1<=v2?2*k+1:2*k+3);
+                    // out.println("=============");
+                    // out.println(String.format("h=%s c=%s t=%s k=%s v1=%s v2=%s", h,c,t,k,v1,v2));
+                    // out.println("=============");
                 }
-                out.println(a);
+
             }
         }
     }
@@ -119,6 +131,10 @@ public class CF1352F {
 
         public long nextLong() {
             return Long.parseLong(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
         }
     }
 
