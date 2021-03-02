@@ -1,6 +1,10 @@
 #+STARTUP: showeverything
 * Codeforces Java
 Java setup for solving codeforces problems
+
+** Useful guide
+https://codeforces.com/blog/entry/65133
+
 ** Problem list
 https://codeforces.com/problemset/page/1?tags=1400-1600
 https://codeforces.com/problemset?order=BY_SOLVED_DESC&tags=1500-1700
