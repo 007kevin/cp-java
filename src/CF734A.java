@@ -2,14 +2,23 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Template
+ * Problem CF734A
  */
 @SuppressWarnings("unchecked")
-public class Template {
+public class CF734A {
 
     static class Task extends IOHandler {
         public void run() {
-            
+            int n = in.nextInt();
+            String g = in.next();
+            int a=0;
+            int b=0;
+            for(int i = 0; i < n; ++i)
+                if(g.charAt(i)=='A') a++;
+                else b++;
+            if(a==b) out.println("Friendship");
+            else if(a>b) out.println("Anton");
+            else out.println("Danik");
         }
     }
 
@@ -112,10 +121,6 @@ public class Template {
             for(int i = 0; i < n; ++i)
                 a[i] = nextLong();
             return a;
-        }
-
-        public double nextDouble() {
-            return Double.parseDouble(next());
         }
     }
 

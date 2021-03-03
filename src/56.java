@@ -2,10 +2,10 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Template
+ * Problem 56
  */
 @SuppressWarnings("unchecked")
-public class Template {
+public class 56 {
 
     static class Task extends IOHandler {
         public void run() {

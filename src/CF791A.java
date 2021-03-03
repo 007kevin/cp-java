@@ -2,14 +2,22 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Template
+ * Problem CF791A
  */
 @SuppressWarnings("unchecked")
-public class Template {
+public class CF791A {
 
     static class Task extends IOHandler {
         public void run() {
-            
+            long a = in.nextLong();
+            long b = in.nextLong();
+            long y = 0;
+            while(a<=b){
+                a=3*a;
+                b=2*b;
+                y++;
+            }
+            out.println(y);
         }
     }
 
@@ -112,10 +120,6 @@ public class Template {
             for(int i = 0; i < n; ++i)
                 a[i] = nextLong();
             return a;
-        }
-
-        public double nextDouble() {
-            return Double.parseDouble(next());
         }
     }
 

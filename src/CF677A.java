@@ -2,14 +2,22 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Template
+ * Problem CF677A
  */
 @SuppressWarnings("unchecked")
-public class Template {
+public class CF677A {
 
     static class Task extends IOHandler {
         public void run() {
-            
+            int n = in.nextInt();
+            int h = in.nextInt();
+            int f[] = new int[n];
+            for(int i = 0; i < n; ++i)
+                f[i]=in.nextInt();
+            int w=0;
+            for(int i = 0; i < n; ++i)
+                w+=f[i]>h?2:1;
+            out.println(w);
         }
     }
 
@@ -112,10 +120,6 @@ public class Template {
             for(int i = 0; i < n; ++i)
                 a[i] = nextLong();
             return a;
-        }
-
-        public double nextDouble() {
-            return Double.parseDouble(next());
         }
     }
 

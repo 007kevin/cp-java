@@ -9,4 +9,4 @@ NAME=$1
 FILENAME=$NAME.java
 OUTPUT=$DIR/src/$FILENAME
 cat $DIR/src/Template.java | sed "s/Template/$NAME/g" > $OUTPUT
-echo saved to $OUTPUT
+echo $OUTPUT
