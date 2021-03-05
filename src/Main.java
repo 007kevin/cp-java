@@ -9,7 +9,8 @@ class Main {
 
     static class Task extends IOHandler {
         public void run() {
-            new StringTokenizer(null);
+            while(in.hasNext())
+                out.println(in.next());
         }
     }
 
@@ -57,17 +58,18 @@ class Main {
     /***********************************************************
      *                      BOILERPLATE                        *
      ***********************************************************/
-    public static void main(String[] args) {
-        Task task = new Task();
-        task.run();
-        task.cleanup();
+    public static void main(String[] args) throws Exception {
+        try(Task task = new Task()){
+            task.run();
+        }
     }
 
-    static class IOHandler {
+    static class IOHandler implements Closeable {
         public InputReader in = new InputReader(System.in);
         public OutputWriter out = new OutputWriter(System.out);
 
-        public void cleanup() {
+        @Override
+        public void close() throws IOException {
             out.close();
         }
     }
@@ -81,18 +83,25 @@ class Main {
             tokenizer = null;
         }
 
-        public boolean hasNext() {
-            return tokenizer.hasMoreTokens();
-        }
-
-        public String next() {
+        private boolean initialize() {
             while (tokenizer == null || !tokenizer.hasMoreTokens()) {
                 try {
-                    tokenizer = new StringTokenizer(reader.readLine());
+                    String line = reader.readLine();
+                    if(line==null) return false; // EOF
+                    tokenizer = new StringTokenizer(line);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
+            return true;
+        }
+        
+        public boolean hasNext() {
+            return initialize() && tokenizer.hasMoreTokens();
+        }
+
+        public String next() {
+            initialize();
             return tokenizer.nextToken();
         }
 
@@ -100,22 +109,8 @@ class Main {
             return Integer.parseInt(next());
         }
 
-        public int[] nextInts(int n) {
-            int a[] = new int[n];
-            for(int i = 0; i < n; ++i)
-                a[i] = nextInt();
-            return a;
-        }
-
         public long nextLong() {
             return Long.parseLong(next());
-        }
-
-        public long[] nextLongs(int n) {
-            long a[] = new long[n];
-            for(int i = 0; i < n; ++i)
-                a[i] = nextLong();
-            return a;
         }
 
         public double nextDouble() {

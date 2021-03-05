@@ -63,7 +63,7 @@ public class Template {
         task.cleanup();
     }
 
-    static class IOHandler {
+    static class IOHandler  {
         public InputReader in = new InputReader(System.in);
         public OutputWriter out = new OutputWriter(System.out);
 
@@ -81,18 +81,25 @@ public class Template {
             tokenizer = null;
         }
 
-        public boolean hasNext() {
-            return tokenizer.hasMoreTokens();
-        }
-
-        public String next() {
+        private boolean prime() {
             while (tokenizer == null || !tokenizer.hasMoreTokens()) {
                 try {
-                    tokenizer = new StringTokenizer(reader.readLine());
+                    String line = reader.readLine();
+                    if(line==null) return false; // EOF
+                    tokenizer = new StringTokenizer(line);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
+            return true;
+        }
+        
+        public boolean hasNext() {
+            return prime();
+        }
+
+        public String next() {
+            prime();
             return tokenizer.nextToken();
         }
 
@@ -100,22 +107,8 @@ public class Template {
             return Integer.parseInt(next());
         }
 
-        public int[] nextInts(int n) {
-            int a[] = new int[n];
-            for(int i = 0; i < n; ++i)
-                a[i] = nextInt();
-            return a;
-        }
-
         public long nextLong() {
             return Long.parseLong(next());
-        }
-
-        public long[] nextLongs(int n) {
-            long a[] = new long[n];
-            for(int i = 0; i < n; ++i)
-                a[i] = nextLong();
-            return a;
         }
 
         public double nextDouble() {
