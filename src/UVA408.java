@@ -2,14 +2,30 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem UVA11231
+ * Problem UVA408
  */
 @SuppressWarnings("unchecked")
-class Main {
+public class UVA408 {
 
     static class Task extends IOHandler {
         public void run() {
-            new StringTokenizer(null);
+            try(Scanner s = new Scanner(System.in)){
+                while(s.hasNext()){
+                    long step = s.nextLong();
+                    long mod = s.nextLong();
+                    boolean good = gcd(step,mod) == 1;
+                    out.printf("%10s%10s    %s\n",
+                            step,
+                            mod,
+                            good ? "Good Choice" : "Bad Choice");
+                    out.println();
+                }
+            }
+        }
+
+        public long gcd(long a, long b){
+            if (b==0) return a;
+            return gcd(b,a%b);
         }
     }
 
@@ -81,10 +97,6 @@ class Main {
             tokenizer = null;
         }
 
-        public boolean hasNext() {
-            return tokenizer.hasMoreTokens();
-        }
-
         public String next() {
             while (tokenizer == null || !tokenizer.hasMoreTokens()) {
                 try {
@@ -92,7 +104,7 @@ class Main {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            }
+            }            
             return tokenizer.nextToken();
         }
 

@@ -1,4 +1,5 @@
 import java.io.*;
+import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -9,7 +10,13 @@ public class UVA10106 {
 
     static class Task extends IOHandler {
         public void run() {
-            out.println(in.next());
+            try(Scanner s = new Scanner(System.in)) {;
+                while(s.hasNext()){
+                    BigInteger a = new BigInteger(s.next());
+                    BigInteger b = new BigInteger(s.next());
+                    out.println(a.multiply(b).toString());
+                }
+            }
         }
     }
 
@@ -79,6 +86,10 @@ public class UVA10106 {
         public InputReader(InputStream stream) {
             reader = new BufferedReader(new InputStreamReader(stream), 32768);
             tokenizer = null;
+        }
+
+        public boolean hasNext() {
+            return tokenizer.hasMoreTokens();
         }
 
         public String next() {

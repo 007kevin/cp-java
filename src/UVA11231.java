@@ -5,11 +5,11 @@ import java.util.*;
  * Problem UVA11231
  */
 @SuppressWarnings("unchecked")
-class Main {
+public class UVA11231 {
 
     static class Task extends IOHandler {
         public void run() {
-            new StringTokenizer(null);
+            
         }
     }
 
@@ -82,7 +82,7 @@ class Main {
         }
 
         public boolean hasNext() {
-            return tokenizer.hasMoreTokens();
+            
         }
 
         public String next() {

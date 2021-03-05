@@ -81,6 +81,10 @@ public class Template {
             tokenizer = null;
         }
 
+        public boolean hasNext() {
+            return tokenizer.hasMoreTokens();
+        }
+
         public String next() {
             while (tokenizer == null || !tokenizer.hasMoreTokens()) {
                 try {
