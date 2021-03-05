@@ -2,19 +2,14 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem CFUVA10110
+ * Problem UVA10106
  */
 @SuppressWarnings("unchecked")
 class Main {
 
     static class Task extends IOHandler {
         public void run() {
-            long n;
-            while((n=in.nextLong())!=0){
-                long sqrt = (long) Math.sqrt(n);
-                if (sqrt*sqrt==n) out.println("yes");
-                else out.println("no");
-            }
+            out.println(in.next());
         }
     }
 
@@ -86,10 +81,6 @@ class Main {
             tokenizer = null;
         }
 
-        public double nextDouble() {
-            return Double.parseDouble(next());
-        }
-
         public String next() {
             while (tokenizer == null || !tokenizer.hasMoreTokens()) {
                 try {
@@ -121,6 +112,10 @@ class Main {
             for(int i = 0; i < n; ++i)
                 a[i] = nextLong();
             return a;
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
         }
     }
 

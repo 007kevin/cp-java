@@ -2,14 +2,14 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem 56
+ * Problem UVA10106
  */
 @SuppressWarnings("unchecked")
-public class 56 {
+public class UVA10106 {
 
     static class Task extends IOHandler {
         public void run() {
-            
+            out.println(in.next());
         }
     }
 
