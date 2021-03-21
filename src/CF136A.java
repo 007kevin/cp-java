@@ -2,23 +2,17 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem UVA11231
+ * Problem CF136A
  */
 @SuppressWarnings("unchecked")
-public class UVA11231 {
+public class CF136A {
 
     static class Task extends IOHandler {
         public void run() {
-            while(in.hasNext()){
-                int n = in.nextInt();
-                int m = in.nextInt();
-                int c = in.nextInt();
-                if(n==0&&m==0&&c==0) break;
-                long area = (n-7)*(m-7);
-                long count = (area/2) + (area%2);
-                out.println(c==1?count:area-count);
-
-            }
+            int n = in.nextInt();
+            int[] p = new int[n+1];
+            for(int i = 1; i <= n; ++i) p[in.nextInt()]=i;
+            for(int i = 1; i <= n; ++i) out.println(p[i] + " ");
         }
     }
 
@@ -90,7 +84,7 @@ public class UVA11231 {
             tokenizer = null;
         }
 
-        private boolean initialize() {
+        private boolean prime() {
             while (tokenizer == null || !tokenizer.hasMoreTokens()) {
                 try {
                     String line = reader.readLine();
@@ -104,11 +98,11 @@ public class UVA11231 {
         }
         
         public boolean hasNext() {
-            return initialize() && tokenizer.hasMoreTokens();
+            return prime();
         }
 
         public String next() {
-            initialize();
+            prime();
             return tokenizer.nextToken();
         }
 

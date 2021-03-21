@@ -2,22 +2,50 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem UVA11231
+ * Problem SPOJ_EASYMATH
+ * https://www.spoj.com/problems/EASYMATH/
  */
 @SuppressWarnings("unchecked")
-public class UVA11231 {
+public class SPOJ_EASYMATH {
 
     static class Task extends IOHandler {
         public void run() {
-            while(in.hasNext()){
-                int n = in.nextInt();
-                int m = in.nextInt();
-                int c = in.nextInt();
-                if(n==0&&m==0&&c==0) break;
-                long area = (n-7)*(m-7);
-                long count = (area/2) + (area%2);
-                out.println(c==1?count:area-count);
+            int t = in.nextInt();
+            while(t-->0){
+                long n = in.nextLong();
+                long m = in.nextLong();
+                long a = in.nextLong();
+                long d = in.nextLong();
+                long[] arr = new long[]{a,a+d,a+(2*d),a+(3*d),a+(4*d)};
+                long c1=0;
+                long c2=0;
+                out.println("========");
+                for(int i = 0; i < 5; ++i){
+                    c1+=(n-1)-((n-1)/arr[i]);
+                    c2+=m-(m/arr[i]);
+                    out.println(String.format("%s %s",(n-1)-((n-1)/arr[i]), m-(m/arr[i])));
+                }
+                out.println("> " + c1 + " " + c2);
+                long lcm = arr[0];
+                for(int i = 1; i < 5; ++i){
+                    lcm=lcm(lcm,arr[i]);
+                    c1-=(n-1)-((n-1)/lcm);
+                    c2-=m-(m/lcm);
+                    out.println(String.format("lcm=%s, %s %s",lcm, (n-1)-((n-1)/lcm), m-(m/lcm)));
+                }
+                out.println(c2-c1);
+            }
+        }
 
+        private long lcm(long a, long b) {
+            return a / gcd(a,b) * b;
+        }
+
+        private long gcd(long a, long b) {
+            if (b==0){
+                return a;
+            } else {
+                return gcd(b,a%b);
             }
         }
     }
@@ -90,7 +118,7 @@ public class UVA11231 {
             tokenizer = null;
         }
 
-        private boolean initialize() {
+        private boolean prime() {
             while (tokenizer == null || !tokenizer.hasMoreTokens()) {
                 try {
                     String line = reader.readLine();
@@ -104,11 +132,11 @@ public class UVA11231 {
         }
         
         public boolean hasNext() {
-            return initialize() && tokenizer.hasMoreTokens();
+            return prime();
         }
 
         public String next() {
-            initialize();
+            prime();
             return tokenizer.nextToken();
         }
 

@@ -2,23 +2,39 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem UVA11231
+ * Problem CF567A
  */
 @SuppressWarnings("unchecked")
-public class UVA11231 {
+public class CF567A {
 
     static class Task extends IOHandler {
         public void run() {
-            while(in.hasNext()){
-                int n = in.nextInt();
-                int m = in.nextInt();
-                int c = in.nextInt();
-                if(n==0&&m==0&&c==0) break;
-                long area = (n-7)*(m-7);
-                long count = (area/2) + (area%2);
-                out.println(c==1?count:area-count);
-
+            int n = in.nextInt();
+            int[] a = new int[n];
+            for(int i = 0; i < n; ++i) a[i]=in.nextInt();
+            for(int i = 0; i < n; ++i){
+                out.println(String.format("%s %s",getMin(a, i), getMax(a, i)));
             }
+        }
+
+        private int getMin(int[] a, int i) {
+            if(i==0)
+                return Math.abs(a[i]-a[1]);
+            if(i==a.length-1)
+                return Math.abs(a[i]-a[a.length-2]);
+            return Math.min(
+                    Math.abs(a[i]-a[i-1]),
+                    Math.abs(a[i]-a[i+1]));
+        }
+
+        private int getMax(int[] a, int i) {
+            if(i==0)
+                return Math.abs(a[i]-a[a.length-1]);
+            if(i==a.length-1)
+                return Math.abs(a[i]-a[0]);
+            return Math.max(
+                    Math.abs(a[i]-a[0]),
+                    Math.abs(a[i]-a[a.length-1]));
         }
     }
 
@@ -90,7 +106,7 @@ public class UVA11231 {
             tokenizer = null;
         }
 
-        private boolean initialize() {
+        private boolean prime() {
             while (tokenizer == null || !tokenizer.hasMoreTokens()) {
                 try {
                     String line = reader.readLine();
@@ -104,11 +120,11 @@ public class UVA11231 {
         }
         
         public boolean hasNext() {
-            return initialize() && tokenizer.hasMoreTokens();
+            return prime();
         }
 
         public String next() {
-            initialize();
+            prime();
             return tokenizer.nextToken();
         }
 

@@ -2,22 +2,74 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem UVA11231
+ * Problem UVA11953
  */
 @SuppressWarnings("unchecked")
-public class UVA11231 {
+public class UVA11953 {
 
     static class Task extends IOHandler {
-        public void run() {
-            while(in.hasNext()){
-                int n = in.nextInt();
-                int m = in.nextInt();
-                int c = in.nextInt();
-                if(n==0&&m==0&&c==0) break;
-                long area = (n-7)*(m-7);
-                long count = (area/2) + (area%2);
-                out.println(c==1?count:area-count);
 
+        public void run() {
+            int t = in.nextInt();
+            int CASE =0;
+            while(t-->0){
+                CASE++;
+                int n = in.nextInt();
+                char g[][] = new char[n][n];
+                for(int i = 0; i < n; ++i){
+                    String row = in.next();
+                    for(int j = 0; j < n; ++j){
+                        g[i][j]=row.charAt(j);
+                    }
+                }
+                Grid grid = new Grid(g);
+                out.println(String.format("Case %s: %s", CASE, grid.countAlive()));
+            }
+        }
+
+        public static class Grid {
+            private static char EMPTY = '.';
+            private static char SHIP = 'x';
+            private static char HIT = '@';
+            private static int[][] POS = new int[][]{{1,0},{0,1},{-1,0},{0,-1}};
+            private int N;
+
+            private List<String> ships = new ArrayList<>();
+
+            public Grid(char[][] g){
+                this.N = g.length;
+                boolean[][] visited = new boolean[N][N];
+                for(int i = 0; i < N; ++i){
+                    for(int j = 0; j < N; ++j){
+                        if(!visited[i][j]&&g[i][j]!=EMPTY){
+                            ships.add(extract(g,visited,i,j));
+                        }
+                    }
+                }
+            }
+
+            private String extract(char[][] g, boolean[][] v, int i, int j) {
+                v[i][j]=true;
+                String r = ""+g[i][j];
+                for(int[] pos : POS){
+                    int ni = i + pos[0];
+                    int nj = j + pos[1];
+                    if(ni<0||nj<0||ni>=N||nj>=N||v[ni][nj]||g[ni][nj]==EMPTY) continue;
+                    r+=extract(g, v, ni, nj);
+                }
+                return r;
+            }
+
+            public int countAlive(){
+                return (int) ships.stream().filter(this::isAlive).count();
+            }
+
+            public boolean isAlive(String ship){
+                for(int i = 0; i < ship.length(); ++i){
+                    if(ship.charAt(i)==SHIP)
+                        return true;
+                }
+                return false;
             }
         }
     }
@@ -90,7 +142,7 @@ public class UVA11231 {
             tokenizer = null;
         }
 
-        private boolean initialize() {
+        private boolean prime() {
             while (tokenizer == null || !tokenizer.hasMoreTokens()) {
                 try {
                     String line = reader.readLine();
@@ -104,11 +156,11 @@ public class UVA11231 {
         }
         
         public boolean hasNext() {
-            return initialize() && tokenizer.hasMoreTokens();
+            return prime();
         }
 
         public String next() {
-            initialize();
+            prime();
             return tokenizer.nextToken();
         }
 

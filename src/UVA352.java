@@ -2,22 +2,53 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem UVA11231
+ * Problem UVA352
  */
 @SuppressWarnings("unchecked")
-public class UVA11231 {
+public class UVA352 {
 
     static class Task extends IOHandler {
-        public void run() {
-            while(in.hasNext()){
-                int n = in.nextInt();
-                int m = in.nextInt();
-                int c = in.nextInt();
-                if(n==0&&m==0&&c==0) break;
-                long area = (n-7)*(m-7);
-                long count = (area/2) + (area%2);
-                out.println(c==1?count:area-count);
+        private static int[][] POS = new int[][]{{-1,-1},{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{0,-1}};
 
+        public void run() {
+            int imageNumber = 0;
+            while(in.hasNext()) {
+                imageNumber++;
+                int n = in.nextInt();
+                int[][] image = new int[n][n];
+                for(int i = 0; i < n; ++i) {
+                    String row = in.next();
+                    for(int j = 0; j < n; ++j){
+                        image[i][j]=row.charAt(j) == '0' ? 0 : 1;
+                    }
+                }
+                int count = 0;
+                for(int i = 0; i < n; ++i){
+                    for(int j = 0; j < n; ++j){
+                        if(containsWarEagle(image,i,j)){
+                            count++;
+                        }
+                    }
+                }
+                out.println(String.format("Image number %s contains %s war eagles.", imageNumber, count));
+            }
+        }
+
+        private boolean containsWarEagle(int[][] image, int i, int j) {
+            if(image[i][j] == 0){
+                return false;
+            }
+            traverseWarEagle(image,i,j);
+            return true;
+        }
+
+        private void traverseWarEagle(int[][] image, int i, int j) {
+            int n = image.length;
+            if(i<0||j<0||i>=n||j>=n) return;
+            if(image[i][j] == 0) return;
+            image[i][j]=0;
+            for(int[] p : POS){
+                traverseWarEagle(image, i+p[0], j+p[1]);
             }
         }
     }
@@ -90,7 +121,7 @@ public class UVA11231 {
             tokenizer = null;
         }
 
-        private boolean initialize() {
+        private boolean prime() {
             while (tokenizer == null || !tokenizer.hasMoreTokens()) {
                 try {
                     String line = reader.readLine();
@@ -104,11 +135,11 @@ public class UVA11231 {
         }
         
         public boolean hasNext() {
-            return initialize() && tokenizer.hasMoreTokens();
+            return prime();
         }
 
         public String next() {
-            initialize();
+            prime();
             return tokenizer.nextToken();
         }
 

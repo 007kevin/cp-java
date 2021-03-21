@@ -2,23 +2,61 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem UVA11231
+ * Problem UVA10452
  */
 @SuppressWarnings("unchecked")
-public class UVA11231 {
+public class UVA10452 {
 
     static class Task extends IOHandler {
+        private static int[][] POS = new int[][]{{-1,0},{0,1},{0,-1}};
+        private static String[] POS_NAME = new String[]{"forth", "right", "left"};
+        private static char[] PATH = {'@','I','E','H','O','V','A','#'};
+
         public void run() {
-            while(in.hasNext()){
+            int t = in.nextInt();
+            while(t-->0){
                 int n = in.nextInt();
                 int m = in.nextInt();
-                int c = in.nextInt();
-                if(n==0&&m==0&&c==0) break;
-                long area = (n-7)*(m-7);
-                long count = (area/2) + (area%2);
-                out.println(c==1?count:area-count);
+                char[][] cobbles = new char[n][m];
+                for(int i = 0; i < n; ++i){
+                    String row = in.next();
+                    for(int j = 0; j < m; ++j){
+                        cobbles[i][j]=row.charAt(j);
+                    }
 
+                }
+                Pair<Integer,Integer> start = findStart(cobbles, n, m);
+                List<String> path = findPath(cobbles, 0, start.a, start.b);
+                StringJoiner joiner = new StringJoiner(" ");
+                path.stream().forEach(joiner::add);
+                out.println(joiner.toString());
             }
+        }
+
+        private List<String> findPath(char[][] cobbles, int p, int i, int j) {
+            int n = cobbles.length;
+            int m = cobbles[0].length;
+            if(i<0||j<0||i>=n||j>=m) return null;
+            if(cobbles[i][j]!=PATH[p]) return null;
+            if(cobbles[i][j]=='#') return new LinkedList<String>();
+            for(int a = 0; a < 3; ++a){
+                List<String> result = findPath(cobbles, p+1, i+POS[a][0], j+POS[a][1]);
+                if(result!=null){
+                    result.add(0,POS_NAME[a]);
+                    return result;
+                }
+            }
+            return null;
+        }
+
+        private Pair<Integer,Integer> findStart(char[][] cobbles, int n, int m) {
+            for(int i = 0; i < n; ++i){
+                for(int j = 0; j < m; ++j){
+                    if(cobbles[i][j]=='@')
+                        return new Pair<>(i,j);
+                }
+            }
+            return null;
         }
     }
 
@@ -90,7 +128,7 @@ public class UVA11231 {
             tokenizer = null;
         }
 
-        private boolean initialize() {
+        private boolean prime() {
             while (tokenizer == null || !tokenizer.hasMoreTokens()) {
                 try {
                     String line = reader.readLine();
@@ -104,11 +142,11 @@ public class UVA11231 {
         }
         
         public boolean hasNext() {
-            return initialize() && tokenizer.hasMoreTokens();
+            return prime();
         }
 
         public String next() {
-            initialize();
+            prime();
             return tokenizer.nextToken();
         }
 

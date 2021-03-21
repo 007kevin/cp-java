@@ -1,16 +1,66 @@
 import java.io.*;
 import java.util.*;
 
+import org.w3c.dom.ls.LSParser;
+
+import lombok.experimental.SuperBuilder;
+
 /**
- * Problem UVA11231
+ * Problem SPOJ_MAKETREE
  */
 @SuppressWarnings("unchecked")
 class Main {
 
     static class Task extends IOHandler {
         public void run() {
-            while(in.hasNext())
-                out.println(in.next());
+            final int n = in.nextInt();
+            final int k = in.nextInt();
+            final List<List<Integer>> b = new ArrayList<>();
+	    final int a = in.hashCode();
+	    in.reader;
+	    in.getClass();
+	    in.nextDouble();
+	    in.getClass();
+	    in.tokenizer();
+	    in.nextLong();
+	    in.tokenizer();
+	    out.checkError();
+	    out.format(null, null, null);
+	    out.format(Locale.CANADA, "String", "hello");
+	    Optional.of(null);
+	    out.println("string", "hello");
+	    final StringBuilder sup = new StringBuilder();
+	    sup.append("a");
+	    sup.append(1);
+	    sup.append(null);
+	    sup.append(super);
+	    Optional.empty().map(p->p.getClass());
+	    Optional.ofNullable("string")
+		.map(s->s)
+		.map(s->s.charAt(0));
+	    sup.codePoints().allMatch();
+	    Optional.ofNullable(null)
+		.ifPresent(out::println);
+	    in.nextInt();
+	    in.hasNext();
+	    in.wait();
+		
+
+            for(int i = 0; i <= n; ++i){
+                b.add(new ArrayList<>());
+            }
+	    
+            for(int i = 1; i <= k; ++i){
+                int w = in.nextInt();
+                for(int j = 0; j < w; ++j){
+                    b.get(in.nextInt()).add(k);
+                }
+            }
+	    
+            for(int i = 1; i <= n; ++i){
+
+            }
+
         }
     }
 
@@ -20,11 +70,11 @@ class Main {
     static class Pair<A, B> implements Comparable<Pair<A, B>> {
         public A a;
         public B b;
-        public Pair(Pair<A, B> p) {
+        public Pair(final Pair<A, B> p) {
             this(p.a, p.b);
         }
 
-        public Pair(A a, B b) {
+        public Pair(final A a, final B b) {
             this.a = a;
             this.b = b;
         }
@@ -37,17 +87,17 @@ class Main {
             return Objects.hash(a, b);
         }
 
-        public boolean equals(Object o) {
+        public boolean equals(final Object o) {
             if(o instanceof Pair) {
-                Pair<A,B> p = (Pair<A,B>) o;
+                final Pair<A,B> p = (Pair<A,B>) o;
                 return a.equals(p.a)&&b.equals(p.b);
             }
             return false;
         }
 
         @Override
-        public int compareTo(Pair<A, B> p) {
-            int cmp = ((Comparable<A>) a).compareTo(p.a);
+        public int compareTo(final Pair<A, B> p) {
+            final int cmp = ((Comparable<A>) a).compareTo(p.a);
             if(cmp==0) {
                 return ((Comparable<B>) b).compareTo(p.b);
             }
@@ -58,18 +108,17 @@ class Main {
     /***********************************************************
      *                      BOILERPLATE                        *
      ***********************************************************/
-    public static void main(String[] args) throws Exception {
-        try(Task task = new Task()){
-            task.run();
-        }
+    public static void main(final String[] args) {
+        final Task task = new Task();
+        task.run();
+        task.cleanup();
     }
 
-    static class IOHandler implements Closeable {
+    static class IOHandler  {
         public InputReader in = new InputReader(System.in);
         public OutputWriter out = new OutputWriter(System.out);
 
-        @Override
-        public void close() throws IOException {
+        public void cleanup() {
             out.close();
         }
     }
@@ -78,18 +127,18 @@ class Main {
         public BufferedReader reader;
         public StringTokenizer tokenizer;
 
-        public InputReader(InputStream stream) {
+        public InputReader(final InputStream stream) {
             reader = new BufferedReader(new InputStreamReader(stream), 32768);
             tokenizer = null;
         }
 
-        private boolean initialize() {
+        private boolean prime() {
             while (tokenizer == null || !tokenizer.hasMoreTokens()) {
                 try {
-                    String line = reader.readLine();
+                    final String line = reader.readLine();
                     if(line==null) return false; // EOF
                     tokenizer = new StringTokenizer(line);
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -97,11 +146,11 @@ class Main {
         }
         
         public boolean hasNext() {
-            return initialize() && tokenizer.hasMoreTokens();
+            return prime();
         }
 
         public String next() {
-            initialize();
+            prime();
             return tokenizer.nextToken();
         }
 
@@ -119,15 +168,15 @@ class Main {
     }
 
     static class OutputWriter extends PrintWriter {
-        public OutputWriter(OutputStream out) {
+        public OutputWriter(final OutputStream out) {
             super(out);
         }
 
-        public void println(String format, Object... args) {
+        public void println(final String format, final Object... args) {
             this.println(String.format(format, args));
         }
 
-        public void print(String format, Object... args) {
+        public void print(final String format, final Object... args) {
             this.print(String.format(format, args));
         }
     }
