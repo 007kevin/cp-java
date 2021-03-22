@@ -7,7 +7,7 @@ import java.util.stream.Stream;
  * Problem SPOJMAKETREE
  */
 @SuppressWarnings("unchecked")
-class Main {
+public class SPOJMAKETREE {
 
     static class Task extends IOHandler {
         public void run() {
@@ -24,6 +24,7 @@ class Main {
                 }
             }
             TopologicalSorter sorter = new TopologicalSorter();
+	    
             List<Integer> list = sorter.sort(adj);
             int[] b = new int[N + 1];
             for (int i = 1; i < list.size(); ++i) {

@@ -7,7 +7,7 @@ import java.util.stream.Stream;
  * Problem SPOJMAKETREE
  */
 @SuppressWarnings("unchecked")
-class Main {
+public class SPOJMAKETREE {
 
     static class Task extends IOHandler {
         public void run() {
