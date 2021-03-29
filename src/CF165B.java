@@ -1,66 +1,42 @@
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
- * Problem SPOJMAKETREE
+ * Problem CF165B
  */
 @SuppressWarnings("unchecked")
-public class SPOJMAKETREE {
+public class CF165B {
 
     static class Task extends IOHandler {
         public void run() {
-            int N = in.nextInt();
-            int K = in.nextInt();
-            List<List<Integer>> adj = Stream
-                    .generate(ArrayList<Integer>::new)
-                    .limit(N+1)
-                    .collect(Collectors.toList());
-            for(int i = 1; i <= K; ++i){
-                int w = in.nextInt();
-                while(w-->0){
-                    adj.get(i).add(in.nextInt());
+            long n = in.nextInt();
+            long k = in.nextInt();
+            long l = 1;
+            long r = n;
+            long v = 0;
+            long a = 0;
+            while(l<=r){
+                v=(l+r)/2;
+                long loc = f(v,k);
+                if(loc>=n){
+                    r=v-1;
+                    a=v;
+                } else {
+                    l=v+1;
                 }
             }
-            TopologicalSorter sorter = new TopologicalSorter();
-	    
-            List<Integer> list = sorter.sort(adj);
-            int[] b = new int[N + 1];
-            for (int i = 1; i < list.size(); ++i) {
-                b[list.get(i)] = list.get(i - 1);
-            }
-            for (int i = 1; i <= N; ++i)
-                out.println(b[i]);
-        }
-    }
-
-    static class TopologicalSorter {
-        Set<Integer> visited = new HashSet<>();
-        List<Integer> tsort = new ArrayList<>();
-
-        public List<Integer> sort(final List<List<Integer>> adj){
-            visited.clear();
-            tsort.clear();
-            for(int i = 1; i < adj.size(); ++i){
-                dfs(i, adj);
-            }
-            tsort.add(0);
-            Collections.reverse(tsort);
-            return tsort;
+            out.println(a);
         }
 
-        private void dfs(Integer i, List<List<Integer>> adj) {
-            if (visited.contains(i)) {
-                return;
+        private long f(long v, long k) {
+            long a = v;
+            long b = k;
+            while(v/b!=0){
+                a+=v/b;
+                b*=k;
             }
-            visited.add(i);
-            for (Integer a : adj.get(i)) {
-                dfs(a, adj);
-            }
-            tsort.add(i);
+            return a;
         }
-
     }
 
     /***********************************************************

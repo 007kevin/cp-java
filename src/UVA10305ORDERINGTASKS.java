@@ -4,61 +4,61 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Problem SPOJMAKETREE
+ * Problem UVA10305ORDERINGTASKS
  */
 @SuppressWarnings("unchecked")
-public class SPOJMAKETREE {
+public class UVA10305ORDERINGTASKS {
 
     static class Task extends IOHandler {
         public void run() {
-            int N = in.nextInt();
-            int K = in.nextInt();
-            List<List<Integer>> adj = Stream
-                    .generate(ArrayList<Integer>::new)
-                    .limit(N+1)
-                    .collect(Collectors.toList());
-            for(int i = 1; i <= K; ++i){
-                int w = in.nextInt();
-                while(w-->0){
-                    adj.get(i).add(in.nextInt());
+            while(true){
+                int n = in.nextInt();
+                int m = in.nextInt();
+                if(n==0&&m==0) break;
+
+                List<List<Integer>> tasks = Stream.generate(ArrayList<Integer>::new)
+                        .limit(n+1)
+                        .collect(Collectors.toList());
+                while(m-->0){
+                    int i = in.nextInt();
+                    int j = in.nextInt();
+                    tasks.get(i).add(j);
                 }
+                StringJoiner joiner = new StringJoiner(" ");
+                new TopologicalSorter(tasks).getResult()
+                        .stream()
+                        .map(String::valueOf)
+                        .forEach(joiner::add);
+                out.println(joiner.toString());
             }
-            TopologicalSorter sorter = new TopologicalSorter();
-	    
-            List<Integer> list = sorter.sort(adj);
-            int[] b = new int[N + 1];
-            for (int i = 1; i < list.size(); ++i) {
-                b[list.get(i)] = list.get(i - 1);
-            }
-            for (int i = 1; i <= N; ++i)
-                out.println(b[i]);
         }
     }
 
     static class TopologicalSorter {
-        Set<Integer> visited = new HashSet<>();
-        List<Integer> tsort = new ArrayList<>();
+        private Set<Integer> visited = new HashSet<>();
+        private List<Integer> result = new ArrayList<>();
+        private List<List<Integer>> adj;
 
-        public List<Integer> sort(final List<List<Integer>> adj){
-            visited.clear();
-            tsort.clear();
+        public TopologicalSorter(List<List<Integer>> adj){
+            this.adj = adj;
             for(int i = 1; i < adj.size(); ++i){
-                dfs(i, adj);
+                dfs(i);
             }
-            tsort.add(0);
-            Collections.reverse(tsort);
-            return tsort;
+            Collections.reverse(result);
         }
 
-        private void dfs(Integer i, List<List<Integer>> adj) {
-            if (visited.contains(i)) {
-                return;
-            }
+        public List<Integer> getResult() {
+            return this.result;
+        }
+
+
+        private void dfs(Integer i){
+            if(visited.contains(i)) return;
             visited.add(i);
-            for (Integer a : adj.get(i)) {
-                dfs(a, adj);
+            for(Integer a : adj.get(i)){
+                dfs(a);
             }
-            tsort.add(i);
+            result.add(i);
         }
 
     }

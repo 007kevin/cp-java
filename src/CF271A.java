@@ -1,66 +1,24 @@
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
- * Problem SPOJMAKETREE
+ * Problem CF271A
  */
 @SuppressWarnings("unchecked")
-public class SPOJMAKETREE {
+public class CF271A {
 
     static class Task extends IOHandler {
         public void run() {
-            int N = in.nextInt();
-            int K = in.nextInt();
-            List<List<Integer>> adj = Stream
-                    .generate(ArrayList<Integer>::new)
-                    .limit(N+1)
-                    .collect(Collectors.toList());
-            for(int i = 1; i <= K; ++i){
-                int w = in.nextInt();
-                while(w-->0){
-                    adj.get(i).add(in.nextInt());
+            int t = in.nextInt();
+            while(t-->0){
+                int a = in.nextInt();
+                if(360%(180-a)==0){
+                    out.println("YES");
+                } else {
+                    out.println("NO");
                 }
             }
-            TopologicalSorter sorter = new TopologicalSorter();
-	    
-            List<Integer> list = sorter.sort(adj);
-            int[] b = new int[N + 1];
-            for (int i = 1; i < list.size(); ++i) {
-                b[list.get(i)] = list.get(i - 1);
-            }
-            for (int i = 1; i <= N; ++i)
-                out.println(b[i]);
         }
-    }
-
-    static class TopologicalSorter {
-        Set<Integer> visited = new HashSet<>();
-        List<Integer> tsort = new ArrayList<>();
-
-        public List<Integer> sort(final List<List<Integer>> adj){
-            visited.clear();
-            tsort.clear();
-            for(int i = 1; i < adj.size(); ++i){
-                dfs(i, adj);
-            }
-            tsort.add(0);
-            Collections.reverse(tsort);
-            return tsort;
-        }
-
-        private void dfs(Integer i, List<List<Integer>> adj) {
-            if (visited.contains(i)) {
-                return;
-            }
-            visited.add(i);
-            for (Integer a : adj.get(i)) {
-                dfs(a, adj);
-            }
-            tsort.add(i);
-        }
-
     }
 
     /***********************************************************

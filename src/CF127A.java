@@ -4,63 +4,32 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Problem SPOJMAKETREE
+ * Problem CF127A
  */
 @SuppressWarnings("unchecked")
-public class SPOJMAKETREE {
+public class CF127A {
 
     static class Task extends IOHandler {
         public void run() {
-            int N = in.nextInt();
-            int K = in.nextInt();
-            List<List<Integer>> adj = Stream
-                    .generate(ArrayList<Integer>::new)
-                    .limit(N+1)
+            int n = in.nextInt();
+            Double k = in.nextDouble();
+            Double d = 0.0;
+            List<Pair<Double,Double>> coords = Stream
+                    .generate(() -> new Pair<Double,Double>(in.nextDouble(), in.nextDouble()))
+                    .limit(n)
                     .collect(Collectors.toList());
-            for(int i = 1; i <= K; ++i){
-                int w = in.nextInt();
-                while(w-->0){
-                    adj.get(i).add(in.nextInt());
-                }
+            for(int i = 0; i < coords.size()-1; ++i){
+                d+=distance(coords.get(i), coords.get(i+1));
             }
-            TopologicalSorter sorter = new TopologicalSorter();
-	    
-            List<Integer> list = sorter.sort(adj);
-            int[] b = new int[N + 1];
-            for (int i = 1; i < list.size(); ++i) {
-                b[list.get(i)] = list.get(i - 1);
-            }
-            for (int i = 1; i <= N; ++i)
-                out.println(b[i]);
-        }
-    }
-
-    static class TopologicalSorter {
-        Set<Integer> visited = new HashSet<>();
-        List<Integer> tsort = new ArrayList<>();
-
-        public List<Integer> sort(final List<List<Integer>> adj){
-            visited.clear();
-            tsort.clear();
-            for(int i = 1; i < adj.size(); ++i){
-                dfs(i, adj);
-            }
-            tsort.add(0);
-            Collections.reverse(tsort);
-            return tsort;
+            d*=k;
+            out.println(String.format("%.9f", d/50));
         }
 
-        private void dfs(Integer i, List<List<Integer>> adj) {
-            if (visited.contains(i)) {
-                return;
-            }
-            visited.add(i);
-            for (Integer a : adj.get(i)) {
-                dfs(a, adj);
-            }
-            tsort.add(i);
+        private Double distance(Pair<Double, Double> a, Pair<Double, Double> b){
+            Double x = Math.abs(a.a - b.a);
+            Double y = Math.abs(a.b - b.b);
+            return Math.sqrt(x*x+y*y);
         }
-
     }
 
     /***********************************************************

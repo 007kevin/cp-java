@@ -1,64 +1,75 @@
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
- * Problem SPOJMAKETREE
+ * Problem UVA460_OVERLAPPING_RECTANGLES
  */
 @SuppressWarnings("unchecked")
-public class SPOJMAKETREE {
+public class UVA460_OVERLAPPING_RECTANGLES {
 
     static class Task extends IOHandler {
         public void run() {
-            int N = in.nextInt();
-            int K = in.nextInt();
-            List<List<Integer>> adj = Stream
-                    .generate(ArrayList<Integer>::new)
-                    .limit(N+1)
-                    .collect(Collectors.toList());
-            for(int i = 1; i <= K; ++i){
-                int w = in.nextInt();
-                while(w-->0){
-                    adj.get(i).add(in.nextInt());
+            int t = in.nextInt();
+            StringJoiner results = new StringJoiner("\n\n");
+            while(t-->0){
+                Rectangle r1 = new Rectangle(
+                        in.nextInt(),
+                        in.nextInt(),
+                        in.nextInt(),
+                        in.nextInt());
+                Rectangle r2 = new Rectangle(
+                        in.nextInt(),
+                        in.nextInt(),
+                        in.nextInt(),
+                        in.nextInt());
+                Rectangle overlap = r1.overlap(r2);
+                if(overlap == null){
+                    results.add("No Overlap");
+                } else {
+                    results.add(String.format("%s %s %s %s",
+                                    overlap.llx,
+                                    overlap.lly,
+                                    overlap.urx,
+                                    overlap.ury));
                 }
+
             }
-            TopologicalSorter sorter = new TopologicalSorter();
-	    
-            List<Integer> list = sorter.sort(adj);
-            int[] b = new int[N + 1];
-            for (int i = 1; i < list.size(); ++i) {
-                b[list.get(i)] = list.get(i - 1);
-            }
-            for (int i = 1; i <= N; ++i)
-                out.println(b[i]);
+            out.println(results.toString());
         }
     }
 
-    static class TopologicalSorter {
-        Set<Integer> visited = new HashSet<>();
-        List<Integer> tsort = new ArrayList<>();
+    static class Rectangle {
+        private Integer llx;
+        private Integer lly;
+        private Integer urx;
+        private Integer ury;
 
-        public List<Integer> sort(final List<List<Integer>> adj){
-            visited.clear();
-            tsort.clear();
-            for(int i = 1; i < adj.size(); ++i){
-                dfs(i, adj);
-            }
-            tsort.add(0);
-            Collections.reverse(tsort);
-            return tsort;
+        public Rectangle(
+                Integer llx,
+                Integer lly,
+                Integer urx,
+                Integer ury) {
+            this.llx = llx;
+            this.lly = lly;
+            this.urx = urx;
+            this.ury = ury;
         }
 
-        private void dfs(Integer i, List<List<Integer>> adj) {
-            if (visited.contains(i)) {
-                return;
+        private Rectangle overlap(final Rectangle other){
+            if(nooverlap(other)){
+                return null;
             }
-            visited.add(i);
-            for (Integer a : adj.get(i)) {
-                dfs(a, adj);
-            }
-            tsort.add(i);
+            List<Integer> xs = Arrays.asList(urx,llx,other.urx,other.llx);
+            List<Integer> ys = Arrays.asList(ury,lly,other.ury,other.lly);
+            Collections.sort(xs);
+            Collections.sort(ys);
+            return new Rectangle(xs.get(1), ys.get(1), xs.get(2), ys.get(2));
+        }
+
+        private boolean nooverlap(Rectangle other) {
+            if(urx <= other.llx || other.urx <= llx) return true;
+            if(ury <= other.lly || other.ury <= lly) return true;
+            return false;
         }
 
     }
@@ -143,7 +154,7 @@ public class SPOJMAKETREE {
             }
             return true;
         }
-        
+
         public boolean hasNext() {
             return prime();
         }
