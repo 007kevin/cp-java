@@ -2,36 +2,31 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem UVABigMod
+ * Problem CF16B
  */
 @SuppressWarnings("unchecked")
-class Main {
+public class CF16B {
 
     static class Task extends IOHandler {
         public void run() {
-            while(in.hasNext()){
-                long b = in.nextLong();
-                long p = in.nextLong();
-                long m = in.nextLong();
-                out.println(mod(b,p,m));
+            Long n = in.nextLong();
+            Long m = in.nextLong();
+            List<Pair<Long, Long>> list = new ArrayList<>();
+            for(int i = 0; i < m; ++i){
+                list.add(new Pair<Long,Long>(in.nextLong(), in.nextLong()));
             }
-
-        }
-
-        private long mod(long b, long p, long m) {
-            if(p==0) return 1L;
-            long start = b%m;
-            long current = b%m;
-            long step = 0;
-            do {
-                current=(current*b)%m;
-                step++;
-            } while (start != current);
-            long fin = start;
-            for(long i = 1; i < p%step; ++i){
-                fin=(fin*b)%m;
+            Collections.sort(list, (p1,p2) -> {
+                if(p1.b==p2.b) return 0;
+                if(p1.b>p2.b) return -1;
+                return 1;
+            });
+            Long matches = 0L;
+            for(Pair<Long, Long> p : list){
+                if(n==0) break;
+                matches+=p.b * Math.min(n,p.a);
+                n-=Math.min(n,p.a);
             }
-            return fin;
+            out.println(matches);
         }
     }
 

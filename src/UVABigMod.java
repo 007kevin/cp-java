@@ -3,9 +3,10 @@ import java.util.*;
 
 /**
  * Problem UVABigMod
+ * Texbook solution https://algorithmist.com/wiki/UVa_374_-_Big_Mod
  */
 @SuppressWarnings("unchecked")
-class Main {
+public class UVABigMod {
 
     static class Task extends IOHandler {
         public void run() {

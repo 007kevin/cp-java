@@ -3,4 +3,6 @@
 
 https://codeforces.com/blog/entry/65133
 
-https://docs.google.com/spreadsheets/d/197mE4PGe-nwxvW_2116_JkrgclWj9eouMlQjTr3Omsg/edit#gid=1160016643
+A https://docs.google.com/spreadsheets/d/197mE4PGe-nwxvW_2116_JkrgclWj9eouMlQjTr3Omsg/edit#gid=1160016643
+
+B https://docs.google.com/spreadsheets/d/197mE4PGe-nwxvW_2116_JkrgclWj9eouMlQjTr3Omsg/edit#gid=111761178

@@ -2,36 +2,30 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem UVABigMod
+ * Problem CF680B
  */
 @SuppressWarnings("unchecked")
-class Main {
+public class CF680B {
 
     static class Task extends IOHandler {
         public void run() {
-            while(in.hasNext()){
-                long b = in.nextLong();
-                long p = in.nextLong();
-                long m = in.nextLong();
-                out.println(mod(b,p,m));
+            int n = in.nextInt();
+            int a = in.nextInt();
+            int[] t = new int[n+1];
+            for(int i = 1; i <= n; ++i) t[i] = in.nextInt();
+            int criminals = t[a];
+            for(int i = 1; i < 100; ++i) {
+                if(a-i>0&&a+i<t.length){
+                    if(t[a-i]==1&&t[a+i]==1){
+                        criminals+=2;
+                    }
+                } else if (a-i>0) {
+                    criminals+=t[a-i];
+                } else if (a+i<t.length){
+                    criminals+=t[a+i];
+                }
             }
-
-        }
-
-        private long mod(long b, long p, long m) {
-            if(p==0) return 1L;
-            long start = b%m;
-            long current = b%m;
-            long step = 0;
-            do {
-                current=(current*b)%m;
-                step++;
-            } while (start != current);
-            long fin = start;
-            for(long i = 1; i < p%step; ++i){
-                fin=(fin*b)%m;
-            }
-            return fin;
+            out.println(criminals);
         }
     }
 
