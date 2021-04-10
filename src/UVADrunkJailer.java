@@ -2,48 +2,27 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem SPOJTOE1
+ * Problem UVADrunkJailer
  */
 @SuppressWarnings("unchecked")
-class Main {
-    public static char X = 'X';
-    public static char O = 'O';
+public class UVADrunkJailer {
 
     static class Task extends IOHandler {
         public void run() {
+            boolean[] c = new boolean[101];
+            for(int i = 1; i <= 100; ++i){
+                for(int j = i; j <= 100; j+=i){
+                    c[j]=!c[j];
+                }
+            }
+            int[] cnt = new int[101];
+            for(int i = 1; i <= 100; ++i){
+                cnt[i]=cnt[i-1]+(c[i]?1:0);
+            }
             int n = in.nextInt();
             while(n-->0){
-                String[] grid = new String[3];
-                grid[0]=in.next();
-                grid[1]=in.next();
-                grid[2]=in.next();
-                int o=0;
-                int x=0;
-                for(int i = 0; i < 3; ++i){
-                    for(int j = 0; j < 3; ++j){
-                        if(grid[i].charAt(j) == X) x++;
-                        if(grid[i].charAt(j) == O) o++;
-                    }
-                }
-                if(didWin(grid, X) && !didWin(grid, O) && x-o==1) out.println("yes");
-                else if (didWin(grid, O) && !didWin(grid, X) && x==o) out.println("yes");
-                else if (!didWin(grid, X) && !didWin(grid, O) && x-o <= 1) out.println("yes");
-                else out.println("no");
+                out.println(cnt[in.nextInt()]);
             }
-        }
-
-        private boolean didWin(String[] grid, char V) {
-            String line = ""+V+V+V;
-            if(grid[0].equals(line)) return true;
-            if(grid[1].equals(line)) return true;
-            if(grid[2].equals(line)) return true;
-            if(grid[0].charAt(0) == V &&
-                    grid[1].charAt(1) == V &&
-                    grid[2].charAt(2) == V) return true;
-            if(grid[0].charAt(2) == V &&
-                    grid[1].charAt(1) == V &&
-                    grid[2].charAt(0) == V) return true;
-            return false;
         }
     }
 

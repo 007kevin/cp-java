@@ -2,48 +2,33 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem SPOJTOE1
+ * Problem CF433B
  */
 @SuppressWarnings("unchecked")
-class Main {
-    public static char X = 'X';
-    public static char O = 'O';
+public class CF433B {
 
     static class Task extends IOHandler {
         public void run() {
             int n = in.nextInt();
-            while(n-->0){
-                String[] grid = new String[3];
-                grid[0]=in.next();
-                grid[1]=in.next();
-                grid[2]=in.next();
-                int o=0;
-                int x=0;
-                for(int i = 0; i < 3; ++i){
-                    for(int j = 0; j < 3; ++j){
-                        if(grid[i].charAt(j) == X) x++;
-                        if(grid[i].charAt(j) == O) o++;
-                    }
-                }
-                if(didWin(grid, X) && !didWin(grid, O) && x-o==1) out.println("yes");
-                else if (didWin(grid, O) && !didWin(grid, X) && x==o) out.println("yes");
-                else if (!didWin(grid, X) && !didWin(grid, O) && x-o <= 1) out.println("yes");
-                else out.println("no");
+            long[] t1 = new long[n+1];
+            long x = 0;
+            long[] t2 = new long[n+1];
+            for(int i = 1; i <= n; ++i){
+                t2[i]=in.nextLong();
+                x+=t2[i];
+                t1[i]=x;
             }
-        }
+            Arrays.sort(t2);
+            for(int i = 1; i <= n; ++i)
+                t2[i] = t2[i] + t2[i-1];
+            int m = in.nextInt();
 
-        private boolean didWin(String[] grid, char V) {
-            String line = ""+V+V+V;
-            if(grid[0].equals(line)) return true;
-            if(grid[1].equals(line)) return true;
-            if(grid[2].equals(line)) return true;
-            if(grid[0].charAt(0) == V &&
-                    grid[1].charAt(1) == V &&
-                    grid[2].charAt(2) == V) return true;
-            if(grid[0].charAt(2) == V &&
-                    grid[1].charAt(1) == V &&
-                    grid[2].charAt(0) == V) return true;
-            return false;
+            while(m-->0){
+                int type = in.nextInt();
+                int l = in.nextInt();
+                int r = in.nextInt();
+                out.println(type==1?(t1[r]-t1[l-1]):(t2[r]-t2[l-1]));
+            }
         }
     }
 

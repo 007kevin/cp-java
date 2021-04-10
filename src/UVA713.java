@@ -2,48 +2,68 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem SPOJTOE1
+ * Problem UVA713
  */
 @SuppressWarnings("unchecked")
-class Main {
-    public static char X = 'X';
-    public static char O = 'O';
+public class UVA713 {
 
     static class Task extends IOHandler {
         public void run() {
-            int n = in.nextInt();
-            while(n-->0){
-                String[] grid = new String[3];
-                grid[0]=in.next();
-                grid[1]=in.next();
-                grid[2]=in.next();
-                int o=0;
-                int x=0;
-                for(int i = 0; i < 3; ++i){
-                    for(int j = 0; j < 3; ++j){
-                        if(grid[i].charAt(j) == X) x++;
-                        if(grid[i].charAt(j) == O) o++;
-                    }
-                }
-                if(didWin(grid, X) && !didWin(grid, O) && x-o==1) out.println("yes");
-                else if (didWin(grid, O) && !didWin(grid, X) && x==o) out.println("yes");
-                else if (!didWin(grid, X) && !didWin(grid, O) && x-o <= 1) out.println("yes");
-                else out.println("no");
+            int t = in.nextInt();
+            while(t-->0){
+                Number A = new Number(in.next());
+                Number B = new Number(in.next());
+                out.println(A.reverse().add(B.reverse()).reverse().toString());
             }
         }
+    }
 
-        private boolean didWin(String[] grid, char V) {
-            String line = ""+V+V+V;
-            if(grid[0].equals(line)) return true;
-            if(grid[1].equals(line)) return true;
-            if(grid[2].equals(line)) return true;
-            if(grid[0].charAt(0) == V &&
-                    grid[1].charAt(1) == V &&
-                    grid[2].charAt(2) == V) return true;
-            if(grid[0].charAt(2) == V &&
-                    grid[1].charAt(1) == V &&
-                    grid[2].charAt(0) == V) return true;
-            return false;
+    static class Number {
+        List<Integer> num;
+        public Number(String str){
+            num = new ArrayList<>();
+            for(int i = 0; i < str.length(); ++i){
+                num.add(str.charAt(i) - '0');
+            }
+        }
+        public Number reverse(){
+            while(!num.isEmpty() && num.get(num.size()-1) == 0){
+                num.remove(num.size()-1);
+            }
+            Collections.reverse(num);
+            return this;
+        }
+
+        public Number add(Number other){
+            int size = this.num.size() > other.num.size() ?
+                    this.num.size() : other.num.size();
+            int[] a = new int[size];
+            int[] b = new int[size];
+            int[] c = new int[size+1];
+            for(int i = this.num.size()-1; i >= 0; --i){
+                a[this.num.size()-1 - i] = this.num.get(i);
+            }
+            for(int i = other.num.size()-1; i >= 0; --i){
+                b[other.num.size()-1 - i] = other.num.get(i);
+            }
+            for(int i = 0; i < size; ++i){
+                int value = a[i]+b[i]+c[i];
+                c[i] = value%10;
+                c[i+1] = value/10;
+            }
+            String ans = c[size]==0 ? "" : "1";
+            for(int i = size-1; i >= 0; --i){
+                ans+=String.valueOf(c[i]);
+            }
+            return new Number(ans);
+        }
+
+        public String toString() {
+            String s = "";
+            for(Integer n : num){
+                s+=String.valueOf(n);
+            }
+            return s;
         }
     }
 

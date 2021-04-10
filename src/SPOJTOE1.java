@@ -1,3 +1,5 @@
+import UVA11953.Task.Grid;
+
 import java.io.*;
 import java.util.*;
 
@@ -5,13 +7,15 @@ import java.util.*;
  * Problem SPOJTOE1
  */
 @SuppressWarnings("unchecked")
-class Main {
+public class SPOJTOE1 {
     public static char X = 'X';
     public static char O = 'O';
+    public static char DOT = '.';
 
     static class Task extends IOHandler {
         public void run() {
             int n = in.nextInt();
+            Set<String> possible = generate();
             while(n-->0){
                 String[] grid = new String[3];
                 grid[0]=in.next();
@@ -25,26 +29,42 @@ class Main {
                         if(grid[i].charAt(j) == O) o++;
                     }
                 }
-                if(didWin(grid, X) && !didWin(grid, O) && x-o==1) out.println("yes");
-                else if (didWin(grid, O) && !didWin(grid, X) && x==o) out.println("yes");
-                else if (!didWin(grid, X) && !didWin(grid, O) && x-o <= 1) out.println("yes");
-                else out.println("no");
             }
         }
 
-        private boolean didWin(String[] grid, char V) {
-            String line = ""+V+V+V;
-            if(grid[0].equals(line)) return true;
-            if(grid[1].equals(line)) return true;
-            if(grid[2].equals(line)) return true;
-            if(grid[0].charAt(0) == V &&
-                    grid[1].charAt(1) == V &&
-                    grid[2].charAt(2) == V) return true;
-            if(grid[0].charAt(2) == V &&
-                    grid[1].charAt(1) == V &&
-                    grid[2].charAt(0) == V) return true;
-            return false;
+        private Set<String> generate() {
+            Set<String> set = new HashSet<>();
+            CharSequence[] grid = {
+                new StringBuilder("..."),
+                new StringBuilder("..."),
+                new StringBuilder("...")};
+            set.add(serialize(grid));
+            for(int i = 0; i < 3; ++i){
+                for(int j = 0; j < 3; ++j){
+                    set(grid[i],j,X);
+                    generate(set, grid, O);
+                    set(grid[i],j,dot);
+                }
+            }
         }
+
+        private void generate(Set<String> set, CharSequence[] grid, char o) {
+
+        }
+
+        private String serialize(CharSequence[] grid){
+            return grid[0].toString()+grid[1].toString()+grid[2].toString();
+        }
+
+        private void set(CharSequence line, int pos, char c){
+            StringBuilder sb = (StringBuilder) line;
+            sb.setCharAt(pos, c);
+        }
+
+        private boolean hasWinner(CharSequence[] grid){
+            
+        }
+
     }
 
     /***********************************************************
