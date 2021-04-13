@@ -2,105 +2,98 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem SPOJTOE1
+ * Problem CF242C
  */
 @SuppressWarnings("unchecked")
-public class SPOJTOE1 {
-    public static char X = 'X';
-    public static char O = 'O';
-    public static char DOT = '.';
+public class CF242C {
+
+    private static int[][] MOVES = {
+        {1,0},
+        {1,1},
+        {0,1},
+        {-1,1},
+        {-1,0},
+        {-1,-1},
+        {0,-1},
+        {1,-1}
+    };
 
     static class Task extends IOHandler {
         public void run() {
+            King start = new King(in.nextLong(),in.nextLong(),0);
+            King end = new King(in.nextLong(),in.nextLong(),0);
+            Queue<King> Q = new LinkedList<>();
+            Map<Long, Set<Long>> visited = new HashMap<>();
+            Map<Long, List<Segment>> allowed = new HashMap<>();
             int n = in.nextInt();
-            Set<CharSequence> possible = generate();
-            // out.println(hasWinner(new CharSequence[] {
-            //                     "1X3",
-            //                     "4X6",
-            //                     "7X9"
-            //                 }));
-            // for(var p : possible) {
-            //     out.println(p.subSequence(0, 3));
-            //     out.println(p.subSequence(3, 6));
-            //     out.println(p.subSequence(6, 9));
-            //     out.println();
-            // }
-            // out.println(possible.size());
             while(n-->0){
-                CharSequence[] grid = new CharSequence[3];
-                grid[0]=in.next();
-                grid[1]=in.next();
-                grid[2]=in.next();
-                if(possible.contains(serialize(grid))) out.println("yes");
-                else out.println("no");
+                long r = in.nextLong();
+                long a = in.nextLong();
+                long b = in.nextLong();
+                allowed.computeIfAbsent(r, key -> new LinkedList<>())
+                        .add(new Segment(r, a, b));
             }
-        }
-
-        private Set<CharSequence> generate() {
-            Set<CharSequence> set = new HashSet<>();
-            CharSequence[] grid = {
-                new StringBuilder("..."),
-                new StringBuilder("..."),
-                new StringBuilder("...")};
-            set.add(serialize(grid));
-            for(int i = 0; i < 3; ++i){
-                for(int j = 0; j < 3; ++j){
-                    set(grid[i],j,X);
-                    generate(set, grid, O);
-                    set(grid[i],j,DOT);
+            Q.add(start);
+            visited.computeIfAbsent(start.x, key -> new HashSet<>()).add(start.y);
+            long ans = -1;
+            while(!Q.isEmpty()){
+                King current = Q.remove();
+                if(current.equals(end)){
+                    ans=current.m;
                 }
-            }
-            return set;
-        }
-
-        private void generate(Set<CharSequence> set, CharSequence[] grid, char o) {
-            if(hasWinner(grid)){
-                set.add(serialize(grid));
-                return;
-            }
-            for(int i = 0; i < 3; ++i){
-                for(int j = 0; j < 3; ++j){
-                    if(notSet(grid[i],j)){
-                        set(grid[i],j,o);
-                        generate(set, grid, o==X?O:X);
-                        set(grid[i],j,DOT);
+                for(int i = 0; i < MOVES.length; ++i){
+                    long x = current.x + MOVES[i][0];
+                    long y = current.y + MOVES[i][1];
+                    if(!visited.computeIfAbsent(x, key->new HashSet<>()).contains(y) &&
+                            allowed(allowed, x, y)) {
+                        visited.get(x).add(y);
+                        Q.add(new King(x, y, current.m + 1));
                     }
                 }
             }
-            set.add(serialize(grid));
+            out.println(ans);
         }
 
-        private String serialize(CharSequence[] grid){
-            return grid[0].toString()+grid[1].toString()+grid[2].toString();
-        }
-
-        private void set(CharSequence line, int pos, char c){
-            StringBuilder sb = (StringBuilder) line;
-            sb.setCharAt(pos, c);
-        }
-
-        private boolean notSet(CharSequence line, int pos){
-            return line.charAt(pos) == DOT;
-        }
-        
-        private boolean hasWinner(CharSequence[] grid){
-            CharSequence[] cand = {
-                grid[0].toString(),
-                grid[1].toString(),
-                grid[2].toString(),
-                ""+grid[0].charAt(0)+grid[1].charAt(1)+grid[2].charAt(2),
-                ""+grid[0].charAt(2)+grid[1].charAt(1)+grid[2].charAt(0),
-                ""+grid[0].charAt(0)+grid[1].charAt(0)+grid[2].charAt(0),
-                ""+grid[0].charAt(1)+grid[1].charAt(1)+grid[2].charAt(1),
-                ""+grid[0].charAt(2)+grid[1].charAt(2)+grid[2].charAt(2)
-            };
-            for(CharSequence c : cand){
-                if(c.equals("XXX") || c.equals("OOO"))
-                    return true;
+        private boolean allowed(Map<Long, List<Segment>> allowed, long x, long y){
+            if(!allowed.containsKey(x)) return false;
+            List<Segment> list = allowed.get(x);
+            for(Segment seg : list){
+                if(seg.contains(x, y)) return true;
             }
             return false;
         }
+    }
 
+    static class King {
+        private long x;
+        private long y;
+        private long m;
+
+        public King(long x, long y, long m){
+            this.x = x;
+            this.y = y;
+            this.m = m;
+        }
+
+        public boolean equals(King other){
+            return this.x==other.x&&this.y==other.y;
+        }
+    }
+
+    static class Segment {
+        private long r;
+        private long a;
+        private long b;
+
+        public Segment(long r, long a, long b){
+            this.r = r;
+            this.a = a;
+            this.b = b;
+        }
+
+        public boolean contains(long x, long y){
+            return x==r&&a<=y&&y<=b;
+        }
     }
 
     /***********************************************************

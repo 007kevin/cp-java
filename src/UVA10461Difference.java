@@ -2,105 +2,72 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem SPOJTOE1
+ * Problem UVA10461Difference
  */
 @SuppressWarnings("unchecked")
-public class SPOJTOE1 {
-    public static char X = 'X';
-    public static char O = 'O';
-    public static char DOT = '.';
+public class UVA10461Difference {
 
     static class Task extends IOHandler {
         public void run() {
-            int n = in.nextInt();
-            Set<CharSequence> possible = generate();
-            // out.println(hasWinner(new CharSequence[] {
-            //                     "1X3",
-            //                     "4X6",
-            //                     "7X9"
-            //                 }));
-            // for(var p : possible) {
-            //     out.println(p.subSequence(0, 3));
-            //     out.println(p.subSequence(3, 6));
-            //     out.println(p.subSequence(6, 9));
-            //     out.println();
-            // }
-            // out.println(possible.size());
-            while(n-->0){
-                CharSequence[] grid = new CharSequence[3];
-                grid[0]=in.next();
-                grid[1]=in.next();
-                grid[2]=in.next();
-                if(possible.contains(serialize(grid))) out.println("yes");
-                else out.println("no");
-            }
-        }
-
-        private Set<CharSequence> generate() {
-            Set<CharSequence> set = new HashSet<>();
-            CharSequence[] grid = {
-                new StringBuilder("..."),
-                new StringBuilder("..."),
-                new StringBuilder("...")};
-            set.add(serialize(grid));
-            for(int i = 0; i < 3; ++i){
-                for(int j = 0; j < 3; ++j){
-                    set(grid[i],j,X);
-                    generate(set, grid, O);
-                    set(grid[i],j,DOT);
+            int CASE = 1;
+            while(true){
+                int v = in.nextInt();
+                int e = in.nextInt();
+                if(v==0&&e==0) break;
+                out.println("Case #" + CASE++ + ":");
+                Node[] jobs = new Node[v+1];
+                Node[] reverseJobs = new Node[v+1];
+                for(int i = 1; i <= v; ++i){
+                    long time = in.nextLong();
+                    jobs[i]=new Node(time);
+                    reverseJobs[i]=new Node(time);
                 }
-            }
-            return set;
-        }
-
-        private void generate(Set<CharSequence> set, CharSequence[] grid, char o) {
-            if(hasWinner(grid)){
-                set.add(serialize(grid));
-                return;
-            }
-            for(int i = 0; i < 3; ++i){
-                for(int j = 0; j < 3; ++j){
-                    if(notSet(grid[i],j)){
-                        set(grid[i],j,o);
-                        generate(set, grid, o==X?O:X);
-                        set(grid[i],j,DOT);
-                    }
+                for(int i = 0; i < e; ++i){
+                    int x = in.nextInt();
+                    int y = in.nextInt();
+                    jobs[y].dep.add(x);
+                    reverseJobs[x].dep.add(y);
                 }
+                long total = 0;
+                for(int i = 1; i <= v; ++i){
+                    total+=jobs[i].time;
+                }
+                long[] minStart = new long[v+1];
+                long[] maxStart = new long[v+1];
+                for(int i = 1; i <= v; ++i){
+                    minStart[i] = calculateMinStart(new HashSet<Integer>(),jobs, i) - jobs[i].time;
+                    maxStart[i] = total - (calculateMinStart(new HashSet<Integer>(),reverseJobs, i));
+                }
+                int q = in.nextInt();
+                while(q-->0){
+                    int x = in.nextInt();
+                    // out.println("total: " + total);
+                    // out.println("min: " + minStart[x]);
+                    // out.println("max: " + maxStart[x]);
+                    out.println(Math.abs(maxStart[x]-minStart[x]));
+                }
+                out.println();
             }
-            set.add(serialize(grid));
         }
 
-        private String serialize(CharSequence[] grid){
-            return grid[0].toString()+grid[1].toString()+grid[2].toString();
-        }
-
-        private void set(CharSequence line, int pos, char c){
-            StringBuilder sb = (StringBuilder) line;
-            sb.setCharAt(pos, c);
-        }
-
-        private boolean notSet(CharSequence line, int pos){
-            return line.charAt(pos) == DOT;
-        }
-        
-        private boolean hasWinner(CharSequence[] grid){
-            CharSequence[] cand = {
-                grid[0].toString(),
-                grid[1].toString(),
-                grid[2].toString(),
-                ""+grid[0].charAt(0)+grid[1].charAt(1)+grid[2].charAt(2),
-                ""+grid[0].charAt(2)+grid[1].charAt(1)+grid[2].charAt(0),
-                ""+grid[0].charAt(0)+grid[1].charAt(0)+grid[2].charAt(0),
-                ""+grid[0].charAt(1)+grid[1].charAt(1)+grid[2].charAt(1),
-                ""+grid[0].charAt(2)+grid[1].charAt(2)+grid[2].charAt(2)
-            };
-            for(CharSequence c : cand){
-                if(c.equals("XXX") || c.equals("OOO"))
-                    return true;
+        private long calculateMinStart(Set<Integer> visited, Node[] jobs, int i) {
+            if(visited.contains(i)) return 0;
+            visited.add(i);
+            long time = 0;
+            for(Integer dep : jobs[i].dep){
+                time+=calculateMinStart(visited, jobs, dep);
             }
-            return false;
+            return time + jobs[i].time;
         }
+    }
 
+    static class Node {
+        Set<Integer> dep;
+        long time;
+        public Node(final long time){
+            this.time=time;
+            dep=new HashSet<>();
+        }
     }
 
     /***********************************************************

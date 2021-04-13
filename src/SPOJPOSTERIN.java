@@ -2,105 +2,49 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem SPOJTOE1
+ * Problem SPOJPOSTERIN
  */
 @SuppressWarnings("unchecked")
-public class SPOJTOE1 {
-    public static char X = 'X';
-    public static char O = 'O';
-    public static char DOT = '.';
+public class SPOJPOSTERIN {
 
     static class Task extends IOHandler {
         public void run() {
             int n = in.nextInt();
-            Set<CharSequence> possible = generate();
-            // out.println(hasWinner(new CharSequence[] {
-            //                     "1X3",
-            //                     "4X6",
-            //                     "7X9"
-            //                 }));
-            // for(var p : possible) {
-            //     out.println(p.subSequence(0, 3));
-            //     out.println(p.subSequence(3, 6));
-            //     out.println(p.subSequence(6, 9));
-            //     out.println();
-            // }
-            // out.println(possible.size());
-            while(n-->0){
-                CharSequence[] grid = new CharSequence[3];
-                grid[0]=in.next();
-                grid[1]=in.next();
-                grid[2]=in.next();
-                if(possible.contains(serialize(grid))) out.println("yes");
-                else out.println("no");
+            List<Building> list = new ArrayList<>();
+            for(int i = 0; i < n; ++i){
+                list.add(new Building(in.nextInt(), in.nextInt()));
             }
-        }
-
-        private Set<CharSequence> generate() {
-            Set<CharSequence> set = new HashSet<>();
-            CharSequence[] grid = {
-                new StringBuilder("..."),
-                new StringBuilder("..."),
-                new StringBuilder("...")};
-            set.add(serialize(grid));
-            for(int i = 0; i < 3; ++i){
-                for(int j = 0; j < 3; ++j){
-                    set(grid[i],j,X);
-                    generate(set, grid, O);
-                    set(grid[i],j,DOT);
-                }
-            }
-            return set;
-        }
-
-        private void generate(Set<CharSequence> set, CharSequence[] grid, char o) {
-            if(hasWinner(grid)){
-                set.add(serialize(grid));
-                return;
-            }
-            for(int i = 0; i < 3; ++i){
-                for(int j = 0; j < 3; ++j){
-                    if(notSet(grid[i],j)){
-                        set(grid[i],j,o);
-                        generate(set, grid, o==X?O:X);
-                        set(grid[i],j,DOT);
+            int ans = 1;
+            Stack<Integer> stack = new Stack<>();
+            stack.add(list.get(0).w);
+            for(int i = 0; i < n-1; ++i){
+                int a = list.get(i).w;
+                int b = list.get(i+1).w;
+                if(a<b){
+                    stack.push(b);
+                } else if (a>b){
+                    while(!stack.isEmpty() && stack.peek() > b){
+                        ans++;
+                        stack.pop();
                     }
+                    if(stack.isEmpty() || stack.peek() != b)
+                        stack.push(b);
                 }
             }
-            set.add(serialize(grid));
-        }
+            if(!stack.isEmpty()) ans += stack.size()-1;
 
-        private String serialize(CharSequence[] grid){
-            return grid[0].toString()+grid[1].toString()+grid[2].toString();
+            out.println(ans);
         }
+    }
 
-        private void set(CharSequence line, int pos, char c){
-            StringBuilder sb = (StringBuilder) line;
-            sb.setCharAt(pos, c);
-        }
+    static class Building {
+        private int d;
+        private int w;
 
-        private boolean notSet(CharSequence line, int pos){
-            return line.charAt(pos) == DOT;
+        public Building(int d, int w){
+            this.d = d;
+            this.w = w;
         }
-        
-        private boolean hasWinner(CharSequence[] grid){
-            CharSequence[] cand = {
-                grid[0].toString(),
-                grid[1].toString(),
-                grid[2].toString(),
-                ""+grid[0].charAt(0)+grid[1].charAt(1)+grid[2].charAt(2),
-                ""+grid[0].charAt(2)+grid[1].charAt(1)+grid[2].charAt(0),
-                ""+grid[0].charAt(0)+grid[1].charAt(0)+grid[2].charAt(0),
-                ""+grid[0].charAt(1)+grid[1].charAt(1)+grid[2].charAt(1),
-                ""+grid[0].charAt(2)+grid[1].charAt(2)+grid[2].charAt(2)
-            };
-            for(CharSequence c : cand){
-                if(c.equals("XXX") || c.equals("OOO"))
-                    return true;
-            }
-            return false;
-        }
-
     }
 
     /***********************************************************

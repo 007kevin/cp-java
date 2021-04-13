@@ -2,48 +2,48 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem SPOJTOE1
+ * Problem SPOJPOSTERIN
  */
 @SuppressWarnings("unchecked")
 class Main {
-    public static char X = 'X';
-    public static char O = 'O';
 
     static class Task extends IOHandler {
         public void run() {
             int n = in.nextInt();
-            while(n-->0){
-                String[] grid = new String[3];
-                grid[0]=in.next();
-                grid[1]=in.next();
-                grid[2]=in.next();
-                int o=0;
-                int x=0;
-                for(int i = 0; i < 3; ++i){
-                    for(int j = 0; j < 3; ++j){
-                        if(grid[i].charAt(j) == X) x++;
-                        if(grid[i].charAt(j) == O) o++;
-                    }
-                }
-                if(didWin(grid, X) && !didWin(grid, O) && x-o==1) out.println("yes");
-                else if (didWin(grid, O) && !didWin(grid, X) && x==o) out.println("yes");
-                else if (!didWin(grid, X) && !didWin(grid, O) && x-o <= 1) out.println("yes");
-                else out.println("no");
+            List<Building> list = new ArrayList<>();
+            for(int i = 0; i < n; ++i){
+                list.add(new Building(in.nextInt(), in.nextInt()));
             }
-        }
+            int ans = 1;
+            Stack<Integer> stack = new Stack<>();
+            stack.add(list.get(0).w);
+            for(int i = 0; i < n-1; ++i){
+                int a = list.get(i).w;
+                int b = list.get(i+1).w;
+                if(a<b){
+                    stack.push(b);
+                } else if (a>b){
+                    while(!stack.isEmpty() && stack.peek() > b){
+                        ans++;
+                        stack.pop();
+                    }
+                    if(stack.isEmpty() || stack.peek() != b)
+                        stack.push(b);
+                }
+            }
+            if(!stack.isEmpty()) ans += stack.size()-1;
 
-        private boolean didWin(String[] grid, char V) {
-            String line = ""+V+V+V;
-            if(grid[0].equals(line)) return true;
-            if(grid[1].equals(line)) return true;
-            if(grid[2].equals(line)) return true;
-            if(grid[0].charAt(0) == V &&
-                    grid[1].charAt(1) == V &&
-                    grid[2].charAt(2) == V) return true;
-            if(grid[0].charAt(2) == V &&
-                    grid[1].charAt(1) == V &&
-                    grid[2].charAt(0) == V) return true;
-            return false;
+            out.println(ans);
+        }
+    }
+
+    static class Building {
+        private int d;
+        private int w;
+
+        public Building(int d, int w){
+            this.d = d;
+            this.w = w;
         }
     }
 

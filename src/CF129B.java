@@ -1,107 +1,96 @@
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
- * Problem SPOJTOE1
+ * Problem CF129B
  */
 @SuppressWarnings("unchecked")
-public class SPOJTOE1 {
-    public static char X = 'X';
-    public static char O = 'O';
-    public static char DOT = '.';
+public class CF129B {
 
     static class Task extends IOHandler {
         public void run() {
             int n = in.nextInt();
-            Set<CharSequence> possible = generate();
-            // out.println(hasWinner(new CharSequence[] {
-            //                     "1X3",
-            //                     "4X6",
-            //                     "7X9"
-            //                 }));
-            // for(var p : possible) {
-            //     out.println(p.subSequence(0, 3));
-            //     out.println(p.subSequence(3, 6));
-            //     out.println(p.subSequence(6, 9));
+            int m = in.nextInt();
+            List<Set<Integer>> club = Stream
+                    .generate(HashSet<Integer>::new)
+                    .limit(n+1)
+                    .collect(Collectors.toList());
+            for(int i = 0; i < m; ++i){
+                int a = in.nextInt();
+                int b = in.nextInt();
+                club.get(a).add(b);
+                club.get(b).add(a);
+            }
+            // for(int i = 1; i < n; ++i){
+            //     out.print(i + " Adj: ");
+            //     for(Integer adj : club.get(i)){
+            //         out.print(adj + " " );
+            //     }
             //     out.println();
             // }
-            // out.println(possible.size());
-            while(n-->0){
-                CharSequence[] grid = new CharSequence[3];
-                grid[0]=in.next();
-                grid[1]=in.next();
-                grid[2]=in.next();
-                if(possible.contains(serialize(grid))) out.println("yes");
-                else out.println("no");
+
+            int kickOutGroups = 0;
+            while(kickOut(club)){
+                kickOutGroups++;
             }
+            out.println(kickOutGroups);
         }
 
-        private Set<CharSequence> generate() {
-            Set<CharSequence> set = new HashSet<>();
-            CharSequence[] grid = {
-                new StringBuilder("..."),
-                new StringBuilder("..."),
-                new StringBuilder("...")};
-            set.add(serialize(grid));
-            for(int i = 0; i < 3; ++i){
-                for(int j = 0; j < 3; ++j){
-                    set(grid[i],j,X);
-                    generate(set, grid, O);
-                    set(grid[i],j,DOT);
+        private boolean kickOut(List<Set<Integer>> club) {
+            // out.println("TURN");
+            boolean kickedOut = false;
+            Set<Integer> visited = new HashSet<>();
+            Set<Integer> toRemove = new HashSet<>();
+            for(Integer i = 1; i < club.size(); ++i){
+                if(!visited.contains(i))
+                    kickedOut = bfs(visited, toRemove, club, i) || kickedOut;
+            }
+            // out.print("toRemove: ");
+            for(Integer r : toRemove){
+                // out.print(r + " ");
+                club.get(r).clear();
+                for(Integer i = 1; i < club.size(); ++i){
+                    club.get(i).remove(r);
                 }
             }
-            return set;
+            // out.println();
+            return kickedOut;
         }
 
-        private void generate(Set<CharSequence> set, CharSequence[] grid, char o) {
-            if(hasWinner(grid)){
-                set.add(serialize(grid));
-                return;
-            }
-            for(int i = 0; i < 3; ++i){
-                for(int j = 0; j < 3; ++j){
-                    if(notSet(grid[i],j)){
-                        set(grid[i],j,o);
-                        generate(set, grid, o==X?O:X);
-                        set(grid[i],j,DOT);
+        private boolean bfs(Set<Integer> visited, Set<Integer> toRemove, List<Set<Integer>> club, Integer start) {
+            Queue<Integer> Q = new LinkedList<>();
+            boolean removed = false;
+            Q.add(start);
+            visited.add(start);
+            while(!Q.isEmpty()){
+                Integer i = Q.remove();
+                if(club.get(i).size() == 1){
+                    toRemove.add(i);
+                    removed = true;
+                }
+                for(Integer adj : club.get(i)){
+                    if(!visited.contains(adj)){
+                        visited.add(adj);
+                        Q.add(adj);
                     }
                 }
             }
-            set.add(serialize(grid));
-        }
-
-        private String serialize(CharSequence[] grid){
-            return grid[0].toString()+grid[1].toString()+grid[2].toString();
-        }
-
-        private void set(CharSequence line, int pos, char c){
-            StringBuilder sb = (StringBuilder) line;
-            sb.setCharAt(pos, c);
-        }
-
-        private boolean notSet(CharSequence line, int pos){
-            return line.charAt(pos) == DOT;
-        }
-        
-        private boolean hasWinner(CharSequence[] grid){
-            CharSequence[] cand = {
-                grid[0].toString(),
-                grid[1].toString(),
-                grid[2].toString(),
-                ""+grid[0].charAt(0)+grid[1].charAt(1)+grid[2].charAt(2),
-                ""+grid[0].charAt(2)+grid[1].charAt(1)+grid[2].charAt(0),
-                ""+grid[0].charAt(0)+grid[1].charAt(0)+grid[2].charAt(0),
-                ""+grid[0].charAt(1)+grid[1].charAt(1)+grid[2].charAt(1),
-                ""+grid[0].charAt(2)+grid[1].charAt(2)+grid[2].charAt(2)
-            };
-            for(CharSequence c : cand){
-                if(c.equals("XXX") || c.equals("OOO"))
-                    return true;
-            }
-            return false;
+            return removed;
         }
 
     }
+
+    static class Student {
+        Set<Integer> adj;
+        boolean kickedOut = false;
+        public void add(Integer i){
+            adj.add(i);
+        }
+    }
+
+
 
     /***********************************************************
      *                        COMMONS                          *

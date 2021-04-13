@@ -9,7 +9,7 @@ public class UVA476 {
 
     static class Task extends IOHandler {
         public void run() {
-            
+
         }
     }
 

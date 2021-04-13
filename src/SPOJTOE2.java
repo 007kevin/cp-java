@@ -1,19 +1,29 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 /**
- * Problem SPOJTOE1
+ * Problem SPOJTOE2
  */
 @SuppressWarnings("unchecked")
-public class SPOJTOE1 {
+public class SPOJTOE2 {
     public static char X = 'X';
     public static char O = 'O';
     public static char DOT = '.';
 
     static class Task extends IOHandler {
         public void run() {
-            int n = in.nextInt();
-            Set<CharSequence> possible = generate();
+            long time = System.currentTimeMillis();
+            Set<Integer> possible = generate();
+            out.println(System.currentTimeMillis() - time);
             // out.println(hasWinner(new CharSequence[] {
             //                     "1X3",
             //                     "4X6",
@@ -26,35 +36,32 @@ public class SPOJTOE1 {
             //     out.println();
             // }
             // out.println(possible.size());
-            while(n-->0){
-                CharSequence[] grid = new CharSequence[3];
-                grid[0]=in.next();
-                grid[1]=in.next();
-                grid[2]=in.next();
-                if(possible.contains(serialize(grid))) out.println("yes");
-                else out.println("no");
+            while(true){
+                String input = in.next();
+                if(input.equals("end")) break;
+                if(possible.contains(serialize(input))) out.println("valid");
+                else out.println("invalid");
             }
         }
 
-        private Set<CharSequence> generate() {
-            Set<CharSequence> set = new HashSet<>();
+        private Set<Integer> generate() {
+            Set<Integer> set = new HashSet<>();
             CharSequence[] grid = {
                 new StringBuilder("..."),
                 new StringBuilder("..."),
                 new StringBuilder("...")};
-            set.add(serialize(grid));
             for(int i = 0; i < 3; ++i){
                 for(int j = 0; j < 3; ++j){
                     set(grid[i],j,X);
-                    generate(set, grid, O);
+                    generate(set, grid, O, 1);
                     set(grid[i],j,DOT);
                 }
             }
             return set;
         }
 
-        private void generate(Set<CharSequence> set, CharSequence[] grid, char o) {
-            if(hasWinner(grid)){
+        private void generate(Set<Integer> set, CharSequence[] grid, char o, int c) {
+            if(c > 5 && (full(grid) || hasWinner(grid))){
                 set.add(serialize(grid));
                 return;
             }
@@ -62,17 +69,38 @@ public class SPOJTOE1 {
                 for(int j = 0; j < 3; ++j){
                     if(notSet(grid[i],j)){
                         set(grid[i],j,o);
-                        generate(set, grid, o==X?O:X);
+                        generate(set, grid, o==X?O:X, c+1);
                         set(grid[i],j,DOT);
                     }
                 }
             }
-            set.add(serialize(grid));
         }
 
-        private String serialize(CharSequence[] grid){
-            return grid[0].toString()+grid[1].toString()+grid[2].toString();
+        private Integer serialize(CharSequence[] grid){
+            return Objects.hash(
+                    grid[0].charAt(0),
+                    grid[0].charAt(1),
+                    grid[0].charAt(2),
+                    grid[1].charAt(0),
+                    grid[1].charAt(1),
+                    grid[1].charAt(2),
+                    grid[2].charAt(0),
+                    grid[2].charAt(1),
+                    grid[2].charAt(2));
         }
+
+        private Integer serialize(String grid){
+            return Objects.hash(
+                    grid.charAt(0),
+                    grid.charAt(1),
+                    grid.charAt(2),
+                    grid.charAt(3),
+                    grid.charAt(4),
+                    grid.charAt(5),
+                    grid.charAt(6),
+                    grid.charAt(7),
+                    grid.charAt(8));
+        }        
 
         private void set(CharSequence line, int pos, char c){
             StringBuilder sb = (StringBuilder) line;
@@ -84,21 +112,30 @@ public class SPOJTOE1 {
         }
         
         private boolean hasWinner(CharSequence[] grid){
-            CharSequence[] cand = {
-                grid[0].toString(),
-                grid[1].toString(),
-                grid[2].toString(),
-                ""+grid[0].charAt(0)+grid[1].charAt(1)+grid[2].charAt(2),
-                ""+grid[0].charAt(2)+grid[1].charAt(1)+grid[2].charAt(0),
-                ""+grid[0].charAt(0)+grid[1].charAt(0)+grid[2].charAt(0),
-                ""+grid[0].charAt(1)+grid[1].charAt(1)+grid[2].charAt(1),
-                ""+grid[0].charAt(2)+grid[1].charAt(2)+grid[2].charAt(2)
+            char[][] cand = {
+                {grid[0].charAt(0),grid[0].charAt(1),grid[0].charAt(2)},
+                {grid[1].charAt(0),grid[1].charAt(1),grid[1].charAt(2)},
+                {grid[2].charAt(0),grid[2].charAt(1),grid[2].charAt(2)},
+                {grid[0].charAt(0),grid[1].charAt(1),grid[2].charAt(2)},
+                {grid[0].charAt(2),grid[1].charAt(1),grid[2].charAt(0)},
+                {grid[0].charAt(0),grid[1].charAt(0),grid[2].charAt(0)},
+                {grid[0].charAt(1),grid[1].charAt(1),grid[2].charAt(1)},
+                {grid[0].charAt(2),grid[1].charAt(2),grid[2].charAt(2)}
             };
-            for(CharSequence c : cand){
-                if(c.equals("XXX") || c.equals("OOO"))
-                    return true;
+            for(int i = 0; i < cand.length; ++i){
+                if(cand[i][0]==X&&cand[i][1]==X&&cand[i][2]==X) return true;
+                if(cand[i][0]==O&&cand[i][1]==O&&cand[i][2]==O) return true;
             }
             return false;
+        }
+
+        private boolean full(CharSequence[] grid){
+            for(int i = 0; i < 3; ++i){
+                for(int j = 0; j < 3; ++j)
+                    if(grid[i].charAt(j) == DOT)
+                        return false;
+            }
+            return true;
         }
 
     }
