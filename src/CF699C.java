@@ -1,36 +1,98 @@
-
 import java.io.*;
 import java.util.*;
 
 /**
- * Problem CF714B
+ * Problem CF699C
  */
 @SuppressWarnings("unchecked")
-public class CF714B {
+public class CF699C {
 
     static class Task extends IOHandler {
+
+        public static int TODAY_NONE = 0;
+        public static int TODAY_CONTEST = 1;
+        public static int TODAY_GYM = 2;
+        public static int TODAY_BOTH = 3;
+
+        public static int REST = 0;
+        public static int CONTEST = 1;
+        public static int GYM = 2;
+
+
         public void run() {
             int n = in.nextInt();
-            int[] a = new int[n];
-            for(int i = 0; i < a.length; ++i){
+            int[] a = new int[n+1];
+            for(int i = 1; i <= n; ++i){
                 a[i]=in.nextInt();
             }
-            if(able(a)) out.println("YES");
-            else out.println("NO");
+
+            int[][] dp = new int[n+1][3];
+
+            for(int i =1; i <= n; ++i){
+                if(a[i]==TODAY_CONTEST){
+                    dp[i][CONTEST]=max(
+                            dp[i-1][GYM],
+                            dp[i-1][REST]) + 1;
+                    dp[i][GYM]=max(
+                            dp[i-1][CONTEST],
+                            dp[i-1][REST]);
+                    dp[i][REST]=max(
+                            dp[i-1][GYM],
+                            dp[i-1][CONTEST],
+                            dp[i-1][REST]);
+                } else if (a[i]==TODAY_GYM){
+                    dp[i][CONTEST]=max(
+                            dp[i-1][GYM],
+                            dp[i-1][REST]);
+                    dp[i][GYM]=max(
+                            dp[i-1][CONTEST],
+                            dp[i-1][REST]) + 1;
+                    dp[i][REST]=max(
+                            dp[i-1][GYM],
+                            dp[i-1][CONTEST],
+                            dp[i-1][REST]);
+                } else if (a[i]==TODAY_NONE){
+                    dp[i][CONTEST]=max(
+                            dp[i-1][GYM],
+                            dp[i-1][REST]);
+                    dp[i][GYM]=max(
+                            dp[i-1][CONTEST],
+                            dp[i-1][REST]);
+                    dp[i][REST]=max(
+                            dp[i-1][GYM],
+                            dp[i-1][CONTEST],
+                            dp[i-1][REST]);
+                } else if (a[i]==TODAY_BOTH){
+                    dp[i][CONTEST]=max(
+                            dp[i-1][GYM],
+                            dp[i-1][REST]) + 1;
+                    dp[i][GYM]=max(
+                            dp[i-1][CONTEST],
+                            dp[i-1][REST]) + 1;
+                    dp[i][REST]=max(
+                            dp[i-1][GYM],
+                            dp[i-1][CONTEST],
+                            dp[i-1][REST]);                    
+                }
+            }
+            out.println(n - max(dp[n][GYM],dp[n][CONTEST],dp[n][REST]));
         }
 
-        private boolean able(int[] a) {
-            Set<Integer> set = new HashSet<>();
-            for(int i = 0; i < a.length; ++i)
-                set.add(a[i]);
-            if(set.size() <= 2) return true;
-            if(set.size() > 3) return false;
-            List<Integer> list = new ArrayList<>(set);
-            Collections.sort(list);
-            if((list.get(0)+list.get(2))==list.get(1)*2) return true;
-            return false;
+        public int min(int... args){
+            int min=Integer.MAX_VALUE;
+            for(int i = 0; i < args.length; ++i){
+                min=Math.min(args[i],min);
+            }
+            return min;
         }
 
+        public int max(int... args){
+            int max=0;
+            for(int i = 0; i < args.length; ++i){
+                max=Math.max(args[i],max);
+            }
+            return max;
+        }
     }
 
     /***********************************************************
@@ -113,7 +175,7 @@ public class CF714B {
             }
             return true;
         }
-        
+
         public boolean hasNext() {
             return prime();
         }

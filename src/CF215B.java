@@ -9,7 +9,33 @@ public class CF215B {
 
     static class Task extends IOHandler {
         public void run() {
+            int n = in.nextInt();
+            double[] x = new double[n];
+            for(int i = 0; i < n; ++i) x[i]=in.nextDouble();
+            int m = in.nextInt();
+            double[] y = new double[m];
+            for(int i = 0; i < m; ++i) y[i]=in.nextDouble();
+            int k = in.nextInt();
+            double[] z = new double[k];
+            for(int i = 0; i < k; ++i) z[i]=in.nextDouble();
+            Arrays.sort(z);
+            double A = in.nextDouble();
+            double B = in.nextDouble();
 
+            double ans = 0;
+            for(int a = 0; a < n; ++a){
+                for(int b = 0; b < m; ++b){
+                    ans=Math.max(ans, calc(A, B, x[a],y[b],z[0]));
+                }
+            }
+
+            out.println("%.9f", ans);
+        }
+
+        private double calc(double a, double b, double r1, double p1, double p2) {
+            double numerator = b*p1*r1*r1;
+            double deno = a*p2 + b*p1;
+            return Math.sqrt(numerator/deno);
         }
     }
 

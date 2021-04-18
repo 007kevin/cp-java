@@ -9,6 +9,8 @@ public class CF667A {
 
     static class Task extends IOHandler {
         public void run() {
+            double hello = 1.00;
+            out.println(hello*hello);
             double d = in.nextDouble();
             double h = in.nextDouble();
             double v = in.nextDouble();

@@ -1,36 +1,61 @@
-
 import java.io.*;
 import java.util.*;
 
 /**
- * Problem CF714B
+ * Problem CF400B
  */
 @SuppressWarnings("unchecked")
-public class CF714B {
+public class CF400B {
 
     static class Task extends IOHandler {
         public void run() {
             int n = in.nextInt();
-            int[] a = new int[n];
-            for(int i = 0; i < a.length; ++i){
-                a[i]=in.nextInt();
+            int m = in.nextInt();
+            char[][] g = new char[n][m];
+            for(int i = 0; i < n; ++i){
+                String s = in.next();
+                for(int j = 0; j < m; ++j){
+                    g[i][j]=s.charAt(j);
+                }
             }
-            if(able(a)) out.println("YES");
-            else out.println("NO");
+            Game game = new Game(g,n,m);
+            if(!game.isPossible()) out.println(-1);
+            else out.println(game.calculate());
+        }
+    }
+
+    static class Game {
+        private char[][] g;
+        private int n;
+        private int m;
+        public Game(final char[][] g, final int n, final int m){
+            this.g = g;
+            this.n = n;
+            this.m = m;
+        }
+        public boolean isPossible() {
+            for(int i = 0; i < n; ++i){
+                for(int j = 0; j < m; ++j){
+                    if(g[i][j]=='G') break;
+                    if(g[i][j]=='S') return false;
+                }
+            }
+            return true;
         }
 
-        private boolean able(int[] a) {
+        public int calculate() {
             Set<Integer> set = new HashSet<>();
-            for(int i = 0; i < a.length; ++i)
-                set.add(a[i]);
-            if(set.size() <= 2) return true;
-            if(set.size() > 3) return false;
-            List<Integer> list = new ArrayList<>(set);
-            Collections.sort(list);
-            if((list.get(0)+list.get(2))==list.get(1)*2) return true;
-            return false;
+            for(int i = 0; i < n; ++i){
+                int d=0;
+                int c=0;
+                for(int j = 0; j < m; ++j){
+                    if(g[i][j]=='G') d=j;
+                    if(g[i][j]=='S') c=j;
+                }
+                set.add(c-d);
+            }
+            return set.size();
         }
-
     }
 
     /***********************************************************

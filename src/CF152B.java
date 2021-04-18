@@ -1,36 +1,65 @@
-
 import java.io.*;
 import java.util.*;
 
 /**
- * Problem CF714B
+ * Problem CF152B
  */
 @SuppressWarnings("unchecked")
-public class CF714B {
+public class CF152B {
 
     static class Task extends IOHandler {
         public void run() {
-            int n = in.nextInt();
-            int[] a = new int[n];
-            for(int i = 0; i < a.length; ++i){
-                a[i]=in.nextInt();
+            Stepper stepper = new Stepper(
+                    in.nextLong(),
+                    in.nextLong(),
+                    in.nextLong(),
+                    in.nextLong());
+
+            long k = in.nextLong();
+            long ans = 0;
+            while(k-->0){
+                ans+=stepper.step(
+                        in.nextLong(),
+                        in.nextLong());
             }
-            if(able(a)) out.println("YES");
-            else out.println("NO");
+            out.println(ans);
+        }
+    }
+
+    static class Stepper {
+        private long n;
+        private long m;
+        private long x;
+        private long y;
+
+        public Stepper(long n, long m, long x, long y){
+            this.n = n;
+            this.m = m;
+            this.x = x;
+            this.y = y;
         }
 
-        private boolean able(int[] a) {
-            Set<Integer> set = new HashSet<>();
-            for(int i = 0; i < a.length; ++i)
-                set.add(a[i]);
-            if(set.size() <= 2) return true;
-            if(set.size() > 3) return false;
-            List<Integer> list = new ArrayList<>(set);
-            Collections.sort(list);
-            if((list.get(0)+list.get(2))==list.get(1)*2) return true;
-            return false;
+        public long step(long dx, long dy){
+            long steps = Math.min(
+                    xsteps(dx),
+                    ysteps(dy));
+            if(steps == Long.MAX_VALUE) return 0;
+            x+=dx*steps;
+            y+=dy*steps;
+            return steps;
         }
 
+        private long xsteps(long dx){
+            if(dx==0) return Long.MAX_VALUE;
+            if(dx>0) return Math.abs((n-x)/dx);
+            return Math.abs((x-1)/dx);
+        }
+
+        private long ysteps(long dy){
+            if(dy==0) return Long.MAX_VALUE;
+            if(dy>0) return Math.abs((m-y)/dy);
+            return Math.abs((y-1)/dy);
+        }        
     }
 
     /***********************************************************

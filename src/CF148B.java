@@ -1,37 +1,43 @@
-
 import java.io.*;
 import java.util.*;
 
 /**
- * Problem CF714B
+ * Problem CF148B
  */
 @SuppressWarnings("unchecked")
-public class CF714B {
+public class CF148B {
 
     static class Task extends IOHandler {
         public void run() {
-            int n = in.nextInt();
-            int[] a = new int[n];
-            for(int i = 0; i < a.length; ++i){
-                a[i]=in.nextInt();
+            double vp=in.nextDouble();
+            double vd=in.nextDouble();
+            double t = in.nextDouble();
+            double f = in.nextDouble();
+            double c = in.nextDouble();
+            double princess=vp*t;
+            int bijou=0;
+            if(vd<=vp){
+                out.println(0);
+                return;
             }
-            if(able(a)) out.println("YES");
-            else out.println("NO");
+            if(princess>=c){
+                out.println(0);
+                return;
+            }
+            while(princess<c){
+                double current = princess;
+                double hours = current/(vd-vp);
+                princess+=hours*vp;
+                if(princess<c){
+                    bijou++;
+                }
+                princess+=hours*vp;
+                princess+=f*vp;
+            }
+            out.println(bijou);
         }
-
-        private boolean able(int[] a) {
-            Set<Integer> set = new HashSet<>();
-            for(int i = 0; i < a.length; ++i)
-                set.add(a[i]);
-            if(set.size() <= 2) return true;
-            if(set.size() > 3) return false;
-            List<Integer> list = new ArrayList<>(set);
-            Collections.sort(list);
-            if((list.get(0)+list.get(2))==list.get(1)*2) return true;
-            return false;
-        }
-
     }
+
 
     /***********************************************************
      *                        COMMONS                          *

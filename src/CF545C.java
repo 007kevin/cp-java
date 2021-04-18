@@ -1,36 +1,38 @@
-
 import java.io.*;
 import java.util.*;
 
 /**
- * Problem CF714B
+ * Problem CF545C
  */
 @SuppressWarnings("unchecked")
-public class CF714B {
+public class CF545C {
 
     static class Task extends IOHandler {
+        final static int LEFT=0;
+        final static int RIGHT=1;
+
         public void run() {
             int n = in.nextInt();
-            int[] a = new int[n];
-            for(int i = 0; i < a.length; ++i){
-                a[i]=in.nextInt();
+            int[][] dp = new int[n+2][2];
+            long[] x = new long[n+2];
+            long[] h = new long[n+2];
+            x[0]=Long.MIN_VALUE;
+            x[n+1]=Long.MAX_VALUE;
+            for(int i = 1; i <= n; ++i){
+                x[i]=in.nextLong();
+                h[i]=in.nextLong();
             }
-            if(able(a)) out.println("YES");
-            else out.println("NO");
-        }
 
-        private boolean able(int[] a) {
-            Set<Integer> set = new HashSet<>();
-            for(int i = 0; i < a.length; ++i)
-                set.add(a[i]);
-            if(set.size() <= 2) return true;
-            if(set.size() > 3) return false;
-            List<Integer> list = new ArrayList<>(set);
-            Collections.sort(list);
-            if((list.get(0)+list.get(2))==list.get(1)*2) return true;
-            return false;
+            for(int i = 1; i <= n; ++i){
+                dp[i][LEFT]=Math.max(
+                        dp[i-1][LEFT] + (x[i-1] < x[i]-h[i]?1:0),
+                        dp[i-1][RIGHT] + (x[i-1]+h[i-1] < x[i]-h[i]?1:0));
+                dp[i][RIGHT]=Math.max(
+                        dp[i-1][LEFT] + (x[i] + h[i] < x[i+1]?1:0),
+                        dp[i-1][RIGHT] + (x[i] + h[i] < x[i+1]?1:0));
+            }
+            out.println(Math.max(dp[n][LEFT],dp[n][RIGHT]));
         }
-
     }
 
     /***********************************************************

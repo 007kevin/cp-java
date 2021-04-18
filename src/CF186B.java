@@ -1,36 +1,51 @@
-
 import java.io.*;
 import java.util.*;
 
 /**
- * Problem CF714B
+ * Problem CF186B
  */
 @SuppressWarnings("unchecked")
-public class CF714B {
+public class CF186B {
 
     static class Task extends IOHandler {
         public void run() {
             int n = in.nextInt();
-            int[] a = new int[n];
-            for(int i = 0; i < a.length; ++i){
-                a[i]=in.nextInt();
+            double t1 = in.nextDouble();
+            double t2 = in.nextDouble();
+            double k = in.nextDouble();
+            List<Dwarf> list = new ArrayList<>();
+            for(int i = 1; i <= n; ++i){
+                list.add(new Dwarf(i, t1, t2,
+                                in.nextDouble(),
+                                in.nextDouble(),
+                                k));
             }
-            if(able(a)) out.println("YES");
-            else out.println("NO");
-        }
-
-        private boolean able(int[] a) {
-            Set<Integer> set = new HashSet<>();
-            for(int i = 0; i < a.length; ++i)
-                set.add(a[i]);
-            if(set.size() <= 2) return true;
-            if(set.size() > 3) return false;
-            List<Integer> list = new ArrayList<>(set);
             Collections.sort(list);
-            if((list.get(0)+list.get(2))==list.get(1)*2) return true;
-            return false;
+            for(Dwarf d : list){
+                out.println("%s %.2f", d.number, d.mHeight);
+            }
+        }
+    }
+
+    static class Dwarf implements Comparable<Dwarf> {
+        int number;
+        double mHeight;
+
+        public Dwarf(int number, double t1, double t2, double v, double u, double k){
+            this.number = number;
+            this.mHeight = Math.max(
+                    (t1*v)*((100-k)/100) + t2*u,
+                    (t1*u)*((100-k)/100) + t2*v);
         }
 
+        @Override
+        public int compareTo(Dwarf that) {
+            if(this.mHeight == that.mHeight)
+                return Integer.compare(this.number, that.number);
+            if(this.mHeight > that.mHeight)
+                return -1;
+            return 1;
+        }
     }
 
     /***********************************************************
