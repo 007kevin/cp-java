@@ -4,7 +4,7 @@ import java.util.*;
 /**
  * Problem UVA10600AcmContextAndBlackout
  */
-class Main {
+public class UVA10600AcmContextAndBlackout {
 
     static class Task extends IOHandler {
         public void run() {

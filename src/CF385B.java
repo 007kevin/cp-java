@@ -2,13 +2,25 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Template
+ * Problem CF385B
  */
-public class Template {
+public class CF385B {
 
     static class Task extends IOHandler {
         public void run() {
-
+            String s = in.next();
+            int count = 0;
+            for(int i = 0; i < s.length(); ++i){
+                boolean bear = false;
+                for(int j = i+3; j < s.length(); ++j){
+                    if(s.charAt(j-3)=='b'
+                            && s.charAt(j-2)=='e'
+                            && s.charAt(j-1)=='a'
+                            && s.charAt(j)=='r') bear = true;
+                    if(bear) count++;
+                }
+            }
+            out.println(count);
         }
     }
 
@@ -22,14 +34,15 @@ public class Template {
     }
     static class IOHandler  {
         public InputReader in = new InputReader(System.in);
-        public PrintWriter out = new PrintWriter(System.out);
+        public OutputWriter out = new OutputWriter(System.out);
         public void cleanup() {out.close();}
     }
     static class InputReader {
         public BufferedReader reader;
-        public StringTokenizer tokenizer = null;
+        public StringTokenizer tokenizer;
         public InputReader(InputStream stream) {
             reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
         }
         private boolean prime() {
             while (tokenizer == null || !tokenizer.hasMoreTokens()) {
@@ -46,5 +59,12 @@ public class Template {
         public int nextInt() {return Integer.parseInt(next());}
         public long nextLong() {return Long.parseLong(next());}
         public double nextDouble() {return Double.parseDouble(next());}
+    }
+    static class OutputWriter extends PrintWriter {
+        public OutputWriter(OutputStream out) {super(out);}
+        public void println(String format, Object... args) {
+            this.println(String.format(format, args));}
+        public void print(String format, Object... args) {
+            this.print(String.format(format, args));}
     }
 }

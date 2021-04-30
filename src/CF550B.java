@@ -2,14 +2,51 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Template
+ * Problem CF550B
  */
-public class Template {
+public class CF550B {
 
     static class Task extends IOHandler {
+        int n;
+        long l,r,x;
+        long[] c;
+        long ans=0;
+        
         public void run() {
-
+            n = in.nextInt();
+            l = in.nextLong();
+            r = in.nextLong();
+            x = in.nextLong();
+            c = new long[n];
+            for(int i = 0; i < n; ++i)
+                c[i]=in.nextLong();
+            dfs(new long[n],0);
+            out.println(ans);
         }
+
+        private void dfs(long[] a, int i) {
+            if(i==n){
+                if(valid(a)) ans++;
+                return;
+            }
+            dfs(a, i+1);
+            a[i]=c[i];
+            dfs(a, i+1);
+            a[i]=0;
+        }
+
+        private boolean valid(long[] a) {
+            long min=Long.MAX_VALUE;
+            long max=Long.MIN_VALUE;
+            long sum=0;
+            for(int i = 0; i < a.length; ++i){
+                sum+=a[i];
+                if(a[i]!=0) min=Math.min(a[i],min);
+                max=Math.max(a[i],max);
+            }
+            return max-min>=x && l <= sum && sum <= r;
+        }
+
     }
 
     /***********************************************************

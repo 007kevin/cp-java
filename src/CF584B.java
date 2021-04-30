@@ -2,17 +2,23 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Template
+ * Problem CF584B
  */
-public class Template {
+public class CF584B {
 
     static class Task extends IOHandler {
         public void run() {
-
+            long n = in.nextInt();
+            long ans = pow(3,3*n) - pow(3,3*(n-1)) - 6 * pow(3,3*(n-1))*n;
+            out.println(ans);
         }
     }
 
-    /***********************************************************
+    static long pow(long b, long e){
+        return (long) Math.pow(b,e);
+    }
+
+    /***********************************************************)
      *                      BOILERPLATE                        *
      ***********************************************************/
     public static void main(String[] args) {
