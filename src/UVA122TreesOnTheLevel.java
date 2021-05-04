@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 /**
  * Problem UVA122TreesOnTheLevel
  */
-class Main {
+public class UVA122TreesOnTheLevel {
     
     private static Pattern pattern = Pattern.compile("\\(([0-9]+),([LR]*)\\)");
     
