@@ -2,13 +2,28 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Template
+ * Problem CF651c
  */
-public class Template {
+public class CF651c {
 
     static class Task extends IOHandler {
         public void run() {
-            
+            int n = in.nextInt();
+            Map<Integer, Integer> X = new HashMap<>();
+            Map<Integer, Integer> Y = new HashMap<>();
+            Map<Integer, Map<Integer, Integer>> XY = new HashMap<>();
+            long ans = 0;
+            for(int i = 0; i < n; ++i){
+                int x = in.nextInt();
+                int y = in.nextInt();
+                ans+=X.getOrDefault(x, 0)
+                        + Y.getOrDefault(y, 0)
+                        - XY.getOrDefault(x, new HashMap<>()).getOrDefault(y, 0);
+                X.compute(x, (k,v) -> v == null ? 1 : v + 1);
+                Y.compute(y, (k,v) -> v == null ? 1 : v + 1);
+                XY.computeIfAbsent(x, (k) -> new HashMap<>()).compute(y, (k,v) -> v == null ? 1 : v + 1);
+            }
+            out.println(ans);
         }
     }
 

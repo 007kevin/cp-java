@@ -2,13 +2,38 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Template
+ * Problem UVA10276HanoiTowerTrouble
  */
-public class Template {
+public class UVA10276HanoiTowerTrouble {
 
     static class Task extends IOHandler {
         public void run() {
-            
+            int t = in.nextInt();
+            while(t-->0){
+                int n = in.nextInt();
+                int[] p = new int[n];
+                int c = 1;
+                while(true){
+                    boolean cont = false;
+                    for(int i = 0; i < n; ++i){
+                        if(p[i]==0){
+                            cont = true;
+                            p[i]=c;
+                            break;
+                        } else {
+                            int sqrt = (int) Math.sqrt(p[i] + c);
+                            if(sqrt * sqrt == p[i]+c){
+                                cont=true;
+                                p[i]=c;
+                                break;
+                            }
+                        }
+                    }
+                    if(!cont) break;
+                    c++;
+                }
+                out.println(c-1);
+            }
         }
     }
 

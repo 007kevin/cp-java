@@ -4,7 +4,7 @@ import java.util.*;
 /**
  * Problem UVA1174IpTv
  */
-class Main {
+public class UVA1174IpTv {
 
     static class Task extends IOHandler {
         public void run() {
