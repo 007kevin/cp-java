@@ -4,7 +4,7 @@ import java.util.*;
 /**
  * Problem UVA10717Mint
  */
-class Main {
+public class UVA10717Mint {
 
     static class Task extends IOHandler {
         public void run() {

@@ -2,55 +2,63 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem UVA10717Mint
+ * Problem UVA10325TheLottery
+ * By inclusion-exclusion principle,
+ * M=15 means we need to generate 2^15-1 = 32767 terms
  */
-class Main {
+public class UVA10325TheLottery {
 
     static class Task extends IOHandler {
         public void run() {
             while(in.hasNext()){
-                int n = in.nextInt();
-                int t = in.nextInt();
-                if(n==0&&t==0) return;
-                long[] c = new long[n];
-                for(int i = 0; i < n; ++i) c[i]=in.nextLong();
-                while(t-->0){
-                    long h = in.nextLong();
-                    long floor = 0l;
-                    long ceil = Long.MAX_VALUE;
-                    for(int i = 0; i < n; ++i){
-                        for(int j = i+1; j < n; ++j){
-                            for(int k = j+1; k < n; ++k){
-                                for(int l = k+1; l < n; ++l){
-                                    long lcm = lcm(c[i],lcm(c[j],lcm(c[k],c[l])));
-                                    floor=Math.max(floor, floor(h,lcm)*lcm);
-                                    ceil=Math.min(ceil, ceil(h,lcm)*lcm);
-                                
-                                }
-                            }
-                        }
-                    }
-                    out.println(floor + " " + ceil);
-                }
+                long n = in.nextLong();
+                int m = in.nextInt();
+                long[] a = new long[m];
+                for(int i = 0; i < m; ++i) a[i]=in.nextLong();
+                long inc = apply(n,a,m);
+                out.println(n-inc);
             }
         }
 
-        private long floor(long a, long b){
-            return a/b;
+        public int apply(long n, long[] a, int m){
+            if(m==0) return 0;
+            int sign=m%2==0?-1:1;
+            List<List<Long>> chosen = new ArrayList<>();
+            recursiveFor(chosen, new ArrayList<>(), a, 0, m);
+            int ret=0;
+            for(List<Long> c : chosen){
+                ret+=sign*n/c.stream().reduce(1l, (acc, val) -> lcm(acc,val));
+            }
+            return ret + apply(n,a,m-1);
         }
 
-        private long ceil(long a, long b){
-            return (a-1)/b+1;
+        public void recursiveFor(
+                List<List<Long>> list,
+                List<Long> cur,
+                long[] a,
+                int i,
+                int m) {
+            if(m==0){
+                list.add(new ArrayList<>(cur));
+                return;
+            }
+            for(int j = i; j < a.length; ++j){
+                cur.add(a[j]);
+                recursiveFor(list, cur, a, j+1, m-1);
+                cur.remove(cur.size()-1);
+            }
         }
 
-        private long gcd(long a, long b) {
+        public long gcd(long a, long b){
             if(a%b==0) return b;
             return gcd(b,a%b);
         }
 
-        private long lcm(long a, long b) {
+        public long lcm(long a, long b){
             return a / gcd(a,b) * b;
         }
+        
+
     }
 
     /***********************************************************

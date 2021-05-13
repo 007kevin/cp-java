@@ -2,55 +2,49 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem UVA10717Mint
+ * Problem UVA10168SummationOfFour
  */
-class Main {
+public class UVA10168SummationOfFour {
+
+    static int MAX = 10000000;
 
     static class Task extends IOHandler {
         public void run() {
+            BitSet sieve = new BitSet(MAX);
+            Set<Integer> primes = new HashSet<>();
+            for(int i = 2; i < MAX; ++i){
+                if(!sieve.get(i)){
+                    primes.add(i);
+                    for(int j = i+i; j < MAX; j+=i) sieve.set(j);
+                }
+            }
             while(in.hasNext()){
                 int n = in.nextInt();
-                int t = in.nextInt();
-                if(n==0&&t==0) return;
-                long[] c = new long[n];
-                for(int i = 0; i < n; ++i) c[i]=in.nextLong();
-                while(t-->0){
-                    long h = in.nextLong();
-                    long floor = 0l;
-                    long ceil = Long.MAX_VALUE;
-                    for(int i = 0; i < n; ++i){
-                        for(int j = i+1; j < n; ++j){
-                            for(int k = j+1; k < n; ++k){
-                                for(int l = k+1; l < n; ++l){
-                                    long lcm = lcm(c[i],lcm(c[j],lcm(c[k],c[l])));
-                                    floor=Math.max(floor, floor(h,lcm)*lcm);
-                                    ceil=Math.min(ceil, ceil(h,lcm)*lcm);
-                                
-                                }
-                            }
-                        }
-                    }
-                    out.println(floor + " " + ceil);
+                if(n < 8) out.println("Impossible.");
+                else if(n%2==1) out.println("2 3 " + find(primes, n-5));
+                else {
+                    out.println("2 2 " + find(primes, n-4));
                 }
             }
         }
 
-        private long floor(long a, long b){
-            return a/b;
+        private Pair find(Set<Integer> primes, int n) {
+            for(Integer p : primes){
+                if(primes.contains(n-p)) return new Pair(p, n-p);
+            }
+            return null;
         }
+    }
 
-        private long ceil(long a, long b){
-            return (a-1)/b+1;
+    static class Pair {
+        int a,b;
+        public Pair(int a, int b){
+            this.a=a;this.b=b;
         }
-
-        private long gcd(long a, long b) {
-            if(a%b==0) return b;
-            return gcd(b,a%b);
+        public String toString(){
+            return a + " " + b;
         }
-
-        private long lcm(long a, long b) {
-            return a / gcd(a,b) * b;
-        }
+        
     }
 
     /***********************************************************

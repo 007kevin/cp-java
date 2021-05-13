@@ -2,54 +2,43 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem UVA10717Mint
+ * Problem UVA10394TwinPrimes
  */
-class Main {
+public class UVA10394TwinPrimes {
 
     static class Task extends IOHandler {
         public void run() {
-            while(in.hasNext()){
-                int n = in.nextInt();
-                int t = in.nextInt();
-                if(n==0&&t==0) return;
-                long[] c = new long[n];
-                for(int i = 0; i < n; ++i) c[i]=in.nextLong();
-                while(t-->0){
-                    long h = in.nextLong();
-                    long floor = 0l;
-                    long ceil = Long.MAX_VALUE;
-                    for(int i = 0; i < n; ++i){
-                        for(int j = i+1; j < n; ++j){
-                            for(int k = j+1; k < n; ++k){
-                                for(int l = k+1; l < n; ++l){
-                                    long lcm = lcm(c[i],lcm(c[j],lcm(c[k],c[l])));
-                                    floor=Math.max(floor, floor(h,lcm)*lcm);
-                                    ceil=Math.min(ceil, ceil(h,lcm)*lcm);
-                                
-                                }
-                            }
-                        }
-                    }
-                    out.println(floor + " " + ceil);
+            BitSet sieve = new BitSet(20000000);
+            for(int i = 2; i < 20000000; ++i){
+                for(int j = i+i; j < 20000000; j+=i){
+                    sieve.set(j);
                 }
             }
+            List<Integer> primes = new ArrayList<>();
+            List<TwinPrime> twinPrimes = new ArrayList<>();
+            for(int i = 2; i < 20000000; ++i){
+                if(!sieve.get(i)) primes.add(i);
+            }
+            for(int i = 0; i < primes.size()-1; ++i){
+                if(primes.get(i+1) - primes.get(i) == 2){
+                    twinPrimes.add(new TwinPrime(primes.get(i), primes.get(i+1)));
+                }
+            }
+            while(in.hasNext()){
+                out.println(twinPrimes.get(in.nextInt() - 1));
+            }
+        }
+    }
+
+    static class TwinPrime {
+        int a,b;
+        public TwinPrime(int a, int b){
+            this.a=a;
+            this.b=b;
         }
 
-        private long floor(long a, long b){
-            return a/b;
-        }
-
-        private long ceil(long a, long b){
-            return (a-1)/b+1;
-        }
-
-        private long gcd(long a, long b) {
-            if(a%b==0) return b;
-            return gcd(b,a%b);
-        }
-
-        private long lcm(long a, long b) {
-            return a / gcd(a,b) * b;
+        public String toString() {
+            return "(" + a + ", " + b + ")";
         }
     }
 
