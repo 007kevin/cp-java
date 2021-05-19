@@ -1,19 +1,47 @@
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
- * Problem Uva10302SummationOfPolynomials
+ * Problem Cf437B
  */
-class Main {
+public class Cf437B {
 
     static class Task extends IOHandler {
         public void run() {
-            while(in.hasNext()){
-                long n = in.nextLong();
-                long s = ((n*n*n*n) + (2*n*n*n) + (n*n))/4;
-                out.println(s);
+            int sum = in.nextInt();
+            int limit = in.nextInt();
+            Map<Integer, Set<Integer>> lbs = new HashMap<>();
+            Map<Integer, Set<Integer>> lbl = new HashMap<>();
+            for(int i = 1; i <= sum; ++i){
+                lbs.computeIfAbsent(Integer.lowestOneBit(i), (k) -> new HashSet<>()).add(i);
             }
+            for(int i = 1; i <= limit; ++i){
+                lbl.computeIfAbsent(Integer.lowestOneBit(i), (k) -> new HashSet<>()).add(i);
+            }
+            List<Integer> set = findSet(lbs, lbl);
+            if(set==null) out.println(-1);
+            else {
+                out.println(set.size());
+                for(Integer val : set){
+                    out.print(val + " ");
+                }
+                out.println();
+            }
+
         }
+        public List<Integer> findSet(
+                Map<Integer, Set<Integer>> lbs,
+                Map<Integer, Set<Integer>> lbl){
+            List<Integer> set = new LinkedList<>();
+            for(Map.Entry<Integer, Set<Integer>> entry : lbs.entrySet()){
+                if(!lbl.containsKey(entry.getKey())) return null;
+                if(lbl.get(entry.getKey()).size() < entry.getValue().size()) return null;
+                set.addAll(lbl.get(entry.getKey()).stream().limit(entry.getValue().size()).collect(Collectors.toList()));
+            }
+            return set;
+        }
+
     }
 
     /***********************************************************

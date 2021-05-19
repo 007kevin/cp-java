@@ -14,7 +14,7 @@ Timus: 257467OU
 * Good resources
 - https://algorithmist.com/wiki/U
 - https://cp-algorithms.com/
-
+  
 * Max time to solve problem?
 
 Div2-A (The beginners)

@@ -2,16 +2,22 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Uva10302SummationOfPolynomials
+ * Problem Uva10812BeatTheSpread
  */
-class Main {
+public class Uva10812BeatTheSpread {
 
     static class Task extends IOHandler {
+        static String impossible = "impossible";
         public void run() {
-            while(in.hasNext()){
-                long n = in.nextLong();
-                long s = ((n*n*n*n) + (2*n*n*n) + (n*n))/4;
-                out.println(s);
+            int n = in.nextInt();
+            while(n-->0){
+                int s = in.nextInt();
+                int d = in.nextInt();
+                int a = (s+d)/2;
+                int b = (s-d)/2;
+                if(a<0||b<0) out.println(impossible);
+                else if (a+b!=s||a-b!=d) out.println(impossible);
+                else out.println(a + " " + b);
             }
         }
     }

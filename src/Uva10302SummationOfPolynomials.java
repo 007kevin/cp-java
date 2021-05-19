@@ -4,7 +4,7 @@ import java.util.*;
 /**
  * Problem Uva10302SummationOfPolynomials
  */
-class Main {
+public class Uva10302SummationOfPolynomials {
 
     static class Task extends IOHandler {
         public void run() {

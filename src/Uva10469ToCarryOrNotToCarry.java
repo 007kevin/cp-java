@@ -2,16 +2,16 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Uva10302SummationOfPolynomials
+ * Problem Uva10469ToCarryOrNotToCarry
  */
-class Main {
+public class Uva10469ToCarryOrNotToCarry {
 
     static class Task extends IOHandler {
         public void run() {
             while(in.hasNext()){
-                long n = in.nextLong();
-                long s = ((n*n*n*n) + (2*n*n*n) + (n*n))/4;
-                out.println(s);
+                long a = in.nextLong();
+                long b = in.nextLong();
+                out.println(a^b);
             }
         }
     }

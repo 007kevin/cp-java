@@ -2,18 +2,52 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Uva10302SummationOfPolynomials
+ * Problem Cf296C
  */
-class Main {
+public class Cf296C {
 
     static class Task extends IOHandler {
         public void run() {
-            while(in.hasNext()){
-                long n = in.nextLong();
-                long s = ((n*n*n*n) + (2*n*n*n) + (n*n))/4;
-                out.println(s);
+            int n = in.nextInt();
+            int m = in.nextInt();
+            int k = in.nextInt();
+            long[] a = new long[n+2];
+            long[] d= new long[n+2];
+            Query[] q = new Query[m+2];
+            long[] qd = new long[m+2];
+            for(int i = 1; i <= n; ++i){
+                a[i]=in.nextInt();
             }
+            for(int i = 1; i <= m; ++i){
+                q[i]=new Query(
+                        in.nextInt(),
+                        in.nextInt(),
+                        in.nextInt());
+            }
+            for(int i = 0; i < k; ++i){
+                int x = in.nextInt();
+                int y = in.nextInt();
+                qd[x]++;
+                qd[y+1]--;
+            }
+            for(int i = 1; i <= m; ++i) qd[i]+=qd[i-1];
+            for(int i = 1; i <= m; ++i){
+                d[q[i].l]+=qd[i]*q[i].d;
+                d[q[i].r+1]-=qd[i]*q[i].d;
+            }
+            for(int i = 1; i <= n; ++i) d[i]+=d[i-1];
+            for(int i = 1; i <= n; ++i) a[i]+=d[i];
+            for(int i = 1; i <= n; ++i){
+                out.print(a[i] + " ");
+            }
+            out.println();
         }
+    }
+
+    static class Query {
+        int l,r;
+        long d;
+        Query(int l, int r, long d){this.l=l;this.r=r;this.d=d;}
     }
 
     /***********************************************************

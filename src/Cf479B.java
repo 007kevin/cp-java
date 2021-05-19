@@ -2,18 +2,44 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Uva10302SummationOfPolynomials
+ * Problem Cf479B
  */
-class Main {
+public class Cf479B {
 
     static class Task extends IOHandler {
         public void run() {
-            while(in.hasNext()){
-                long n = in.nextLong();
-                long s = ((n*n*n*n) + (2*n*n*n) + (n*n))/4;
-                out.println(s);
+            int n = in.nextInt();
+            int k = in.nextInt();
+            List<Tower> a = new ArrayList<>();
+            for(int i = 0; i < n; ++i)
+                a.add(new Tower(in.nextInt(), i));
+            List<Move> moves = new ArrayList<>();
+            while(moves.size() < k){
+                Tower max = Collections.max(a);
+                Tower min = Collections.min(a);
+                if(max.a-min.a<=1) break;
+                max.a--; min.a++;
+                moves.add(new Move(max.i,min.i));
+            }
+            out.println((Collections.max(a).a - Collections.min(a).a) + " " + moves.size());
+            for(Move move : moves){
+                out.println((move.i + 1) + " " + (move.j + 1));
             }
         }
+    }
+
+    static class Tower implements Comparable<Tower> {
+        int a,i;
+        Tower(int a, int i){this.a=a;this.i=i;}
+
+        @Override
+        public int compareTo(Tower that){
+            return this.a - that.a;
+        }
+    }
+
+    static class Move {
+        int i,j; Move(int i, int j){this.i=i;this.j=j;}
     }
 
     /***********************************************************

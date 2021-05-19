@@ -2,17 +2,33 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Uva10302SummationOfPolynomials
+ * Problem Cf131C
  */
-class Main {
+public class Cf131C {
 
     static class Task extends IOHandler {
         public void run() {
-            while(in.hasNext()){
-                long n = in.nextLong();
-                long s = ((n*n*n*n) + (2*n*n*n) + (n*n))/4;
-                out.println(s);
+            Ncr ncr = new Ncr();
+            int n = in.nextInt();
+            int m = in.nextInt();
+            int t = in.nextInt();
+            long ans=0;
+            for(int i = 4; i <= t-1; ++i){
+                if(n>=i&&m>=t-i)
+                    ans+=ncr.choose(n,i)*ncr.choose(m,t-i);
             }
+            out.println(ans);
+        }
+    }
+
+    static class Ncr {
+        
+        long[][] memo = new long[31][31];
+        
+        public long choose(int n, int r){
+            if(n==r||n==0||r==0) return 1;
+            if(memo[n][r]!=0) return memo[n][r];
+            return memo[n][r]=(choose(n-1,r-1) + choose(n-1,r));
         }
     }
 
