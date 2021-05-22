@@ -4,7 +4,7 @@ import java.util.*;
 /**
  * Problem Uva10509Feynman
  */
-class Main {
+public class Uva10509Feynman {
 
     static class Task extends IOHandler {
         public void run() {

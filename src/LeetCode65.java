@@ -1,19 +1,22 @@
 import java.io.*;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
- * Problem Uva10509Feynman
+ * Problem LeetCode65
  */
-class Main {
+public class LeetCode65 {
 
     static class Task extends IOHandler {
         public void run() {
-            while(in.hasNext()){
-                double n = in.nextDouble();
-                if(n==0) break;
-                double a = Math.floor(Math.pow(n,1/3.0) + 0.000001);
-                double dx = (n-(a*a*a))/3.0/a/a;
-                out.println(String.format("%.4f", a + dx));
+            
+        }
+
+        static class Integer {
+            static Pattern pattern = Pattern.compile("");
+
+            static boolean isInteger(final String s){
+                
             }
         }
     }

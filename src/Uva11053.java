@@ -2,18 +2,28 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Uva10509Feynman
+ * Problem Uva11053
  */
-class Main {
+public class Uva11053 {
 
     static class Task extends IOHandler {
         public void run() {
             while(in.hasNext()){
-                double n = in.nextDouble();
-                if(n==0) break;
-                double a = Math.floor(Math.pow(n,1/3.0) + 0.000001);
-                double dx = (n-(a*a*a))/3.0/a/a;
-                out.println(String.format("%.4f", a + dx));
+                long N = in.nextLong();
+                if(N==0L) break;
+                long a = in.nextLong();
+                long b = in.nextLong();
+                long x = 0L;
+                long dead =0L;
+                Map<Long, Long> map = new HashMap<>();
+                while(true){
+                    long count = map.getOrDefault(x, 0L);
+                    if(count == 2L) break;
+                    if(count == 1L) dead++;
+                    map.put(x,count+1);
+                    x = (((a*x)%N * x)%N + b)%N;
+                }
+                out.println(N-dead);
             }
         }
     }

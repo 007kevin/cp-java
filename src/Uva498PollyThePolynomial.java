@@ -2,21 +2,52 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Uva10509Feynman
+ * Problem Uva498PollyThePolynomial
  */
-class Main {
+public class Uva498PollyThePolynomial {
 
     static class Task extends IOHandler {
         public void run() {
-            while(in.hasNext()){
-                double n = in.nextDouble();
-                if(n==0) break;
-                double a = Math.floor(Math.pow(n,1/3.0) + 0.000001);
-                double dx = (n-(a*a*a))/3.0/a/a;
-                out.println(String.format("%.4f", a + dx));
+            Scanner sc = new Scanner(System.in);
+            while(sc.hasNext()){
+                List<Long> coef = parse(sc.nextLine());
+                List<Long> xm = parse(sc.nextLine());
+                StringJoiner joiner = new StringJoiner(" ");
+                for(Long x : xm){
+                    joiner.add(String.valueOf(poly(coef, x)));
+                }
+                out.println(joiner.toString());
             }
+            sc.close();
+        }
+
+        public Long poly(List<Long> coef, Long x) {
+            Long ans = 0L;
+            Long n = (long) coef.size() - 1;
+            for(Long c : coef){
+                ans+=c*fpow(x,n--);
+            }
+            return ans;
+        }
+
+        public Long fpow(Long x, Long n){
+            if(n==0) return 1L;
+            if(n==1) return x;
+            if(n%2==1) return x * fpow(x,n-1);
+            Long v = fpow(x,n/2);
+            return v*v;
+        }
+
+        public List<Long> parse(String s){
+            StringTokenizer t = new StringTokenizer(s);
+            List<Long> list = new ArrayList<>();
+            while(t.hasMoreTokens()){
+                list.add(Long.parseLong(t.nextToken()));
+            }
+            return list;
         }
     }
+
 
     /***********************************************************
      *                      BOILERPLATE                        *
