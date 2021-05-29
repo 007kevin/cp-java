@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 /**
  * Problem SpojQueen
  */
-class Main {
+public class SpojQueen {
 
     static final char START = 'S';
     static final char END = 'F';
