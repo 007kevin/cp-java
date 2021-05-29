@@ -1,0 +1,17 @@
+* incorrectPasscodeAttempts
+  time: 00:04:32
+  attempts: 1
+* campusCup
+  time: 00:17:24
+  attempts: 1
+* losslessDataCompression
+  time: 01:20:00
+  attempts: too many.
+  comments: getting the indices right was tricky.
+  learning:
+     Do the sliding window PoCs on paper before going to implementation.
+* fileSyncOrder
+  time:
+  attempts:
+
+  8200 points
