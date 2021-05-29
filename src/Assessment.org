@@ -11,7 +11,7 @@
   learning:
      Do the sliding window PoCs on paper before going to implementation.
 * fileSyncOrder
-  time:
-  attempts:
-
-  8200 points
+  time: 56:00
+  attempts: 5-6 to debug
+  comments: There were a few edge cases I missed. Make sure
+  all edge cases are written out before implementation.
