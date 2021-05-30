@@ -14,4 +14,9 @@
   time: 56:00
   attempts: 5-6 to debug
   comments: There were a few edge cases I missed. Make sure
-  all edge cases are written out before implementation.
+            all edge cases are written out before implementation.
+
+* displayDiff
+  time: 
+  attempts:
+  comments
