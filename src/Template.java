@@ -6,21 +6,16 @@ import java.util.*;
  */
 public class Template {
 
-    static class Task extends IOHandler {
-        public void run() {
-            
-        }
+    public void run() {
+
     }
 
     /***********************************************************
      *                      BOILERPLATE                        *
     /***********************************************************/
-    public static void main(String[] args) {
-        Task task = new Task(); task.run(); task.close();}
-    static class IOHandler  {
-        public InputReader in = new InputReader(System.in);
-        public PrintWriter out = new PrintWriter(System.out);
-        public void close() {out.close();}}
+    public InputReader in = new InputReader(System.in);
+    public PrintWriter out = new PrintWriter(System.out);
+    public void close() {out.close();}
     static class InputReader {
         public BufferedReader reader;
         public StringTokenizer tokens = null;
@@ -40,4 +35,6 @@ public class Template {
         public long nextLong() {return Long.parseLong(next());}
         public double nextDouble() {return Double.parseDouble(next());}
     }
+    public static void main(String[] args) {
+        Template task = new Template(); task.run(); task.close();}
 }

@@ -2,9 +2,9 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Main
+ * Problem Uva10617AgainPalindrome
  */
-class Main {
+public class Uva10617AgainPalindrome {
 
     static class Task extends IOHandler {
         public void run() {
