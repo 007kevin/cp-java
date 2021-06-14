@@ -2,9 +2,9 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Main
+ * Problem Uva11753CreatingPalindrome
  */
-class Main {
+public class Uva11753CreatingPalindrome {
 
     int c = 1,k;
 
@@ -56,5 +56,5 @@ class Main {
         public double nextDouble() {return Double.parseDouble(next());}
     }
     public static void main(String[] args) {
-        Main task = new Main(); task.run(); task.close();}
+        Uva11753CreatingPalindrome task = new Uva11753CreatingPalindrome(); task.run(); task.close();}
 }
