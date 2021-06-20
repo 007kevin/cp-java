@@ -2,32 +2,30 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Uva10617AgainPalindrome
+ * Problem Uva583PrimeFactors
  */
-public class Uva10617AgainPalindrome {
-
+public class Uva583PrimeFactors {
     public void run() {
-        int t = in.nextInt();
-        while(t-->0){
-            char[] s = in.next().toCharArray();
-            int n = s.length;
-            out.println(find(new long[n][n], s, 0, n-1));
-        }
-    }
-
-    private long find(long[][] dp, char[] s, int i, int j) {
-        if(i==j) return 1;
-        if(i>j) return 0;
-        if(dp[i][j]!=0) return dp[i][j];
-        long cnt = 0;
-        for(int k = i; k <= j; ++k){
-            for(int l = k; l <= j; ++l){
-                if(s[k]==s[l]){
-                    cnt+=1 + find(dp,s,k+1, l-1);
+        while(in.hasNext()){
+            long n = in.nextLong();
+            if(n==0) return;
+            long v = n;
+            List<Long> pf = new LinkedList<>();
+            if(n<0) {
+                pf.add(-1l);
+                n*=-1;
+            }
+            for(long i = 2; i*i <= n; ++i){
+                while(n%i==0){
+                    pf.add(i);
+                    n/=i;
                 }
             }
+            if(n!=1) pf.add(n);
+            StringJoiner joiner = new StringJoiner(" x ");
+            pf.stream().map(String::valueOf).forEach(joiner::add);
+            out.println(String.format("%s = %s", v, joiner ));
         }
-        return dp[i][j] = cnt;
     }
 
     /***********************************************************
@@ -56,5 +54,5 @@ public class Uva10617AgainPalindrome {
         public double nextDouble() {return Double.parseDouble(next());}
     }
     public static void main(String[] args) {
-        Uva10617AgainPalindrome task = new Uva10617AgainPalindrome(); task.run(); task.close();}
+        Uva583PrimeFactors task = new Uva583PrimeFactors(); task.run(); task.close();}
 }

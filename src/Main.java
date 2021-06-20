@@ -5,38 +5,35 @@ import java.util.*;
  * Problem Main
  */
 class Main {
-
-    static class Task extends IOHandler {
-        public void run() {
-            int t = in.nextInt();
-            while(t-->0){
-                String s = in.next();
-                int n = s.length();
-                out.println(find(new long[n][n], s.toCharArray(), 0, n-1));
+    public void run() {
+        while(in.hasNext()){
+            long n = in.nextLong();
+            if(n==0) return;
+            long v = n;
+            List<Long> pf = new LinkedList<>();
+            if(n<0) {
+                pf.add(-1l);
+                n*=-1;
             }
-        }
-
-        public long find(long[][] dp, char[] s, int i, int j){
-            if(i==j) return 1;
-            if(i>j) return 0;
-            long cnt=0;
-            if(s[i]==s[j]) cnt++;
-            cnt+=find(dp,s,i+1,j-1);
-            cnt+=find(dp,s,i+1,j);
-            cnt+=Math.max(0,find(dp,s,i,j-1)-1);
-            return cnt;
+            for(long i = 2; i*i <= n; ++i){
+                while(n%i==0){
+                    pf.add(i);
+                    n/=i;
+                }
+            }
+            if(n!=1) pf.add(n);
+            StringJoiner joiner = new StringJoiner(" x ");
+            pf.stream().map(String::valueOf).forEach(joiner::add);
+            out.println(String.format("%s = %s", v, joiner ));
         }
     }
 
     /***********************************************************
      *                      BOILERPLATE                        *
     /***********************************************************/
-    public static void main(String[] args) {
-        Task task = new Task(); task.run(); task.close();}
-    static class IOHandler  {
-        public InputReader in = new InputReader(System.in);
-        public PrintWriter out = new PrintWriter(System.out);
-        public void close() {out.close();}}
+    public InputReader in = new InputReader(System.in);
+    public PrintWriter out = new PrintWriter(System.out);
+    public void close() {out.close();}
     static class InputReader {
         public BufferedReader reader;
         public StringTokenizer tokens = null;
@@ -56,4 +53,6 @@ class Main {
         public long nextLong() {return Long.parseLong(next());}
         public double nextDouble() {return Double.parseDouble(next());}
     }
+    public static void main(String[] args) {
+        Main task = new Main(); task.run(); task.close();}
 }

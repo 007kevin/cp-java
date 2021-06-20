@@ -2,32 +2,41 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Uva10617AgainPalindrome
+ * Problem Cf610B
  */
-public class Uva10617AgainPalindrome {
+public class Cf610B {
 
     public void run() {
-        int t = in.nextInt();
-        while(t-->0){
-            char[] s = in.next().toCharArray();
-            int n = s.length;
-            out.println(find(new long[n][n], s, 0, n-1));
+        int n = in.nextInt();
+        int[] a = new int[n];
+        int low = 0;
+        for(int i = 0; i < n; ++i){
+            a[i]=in.nextInt();
+            if(a[i]<a[low])
+                low=i;
         }
-    }
-
-    private long find(long[][] dp, char[] s, int i, int j) {
-        if(i==j) return 1;
-        if(i>j) return 0;
-        if(dp[i][j]!=0) return dp[i][j];
-        long cnt = 0;
-        for(int k = i; k <= j; ++k){
-            for(int l = k; l <= j; ++l){
-                if(s[k]==s[l]){
-                    cnt+=1 + find(dp,s,k+1, l-1);
-                }
+        int last=0,len=0;
+        for(int i = (low+1)%n; i != low; i=(i+1)%n){
+            if(a[i]==a[low]) continue;
+            if(a[prev(i, n)]==a[low]){
+                last=i;
+            }
+            if(a[(i+1)%n]==a[low]){
+                len=Math.max(len, range(last, i, n));
             }
         }
-        return dp[i][j] = cnt;
+        long ans = ((long) a[low])*((long) n) + len;
+        out.println(ans);
+
+    }
+
+    int prev(int i, int n){
+        return i == 0 ? n-1 : i-1;
+    }
+
+    int range(int i, int j, int n){
+        if(i<=j) return j-i+1;
+        return (j+n)-i+1;
     }
 
     /***********************************************************
@@ -56,5 +65,5 @@ public class Uva10617AgainPalindrome {
         public double nextDouble() {return Double.parseDouble(next());}
     }
     public static void main(String[] args) {
-        Uva10617AgainPalindrome task = new Uva10617AgainPalindrome(); task.run(); task.close();}
+        Cf610B task = new Cf610B(); task.run(); task.close();}
 }

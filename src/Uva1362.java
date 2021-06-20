@@ -2,32 +2,12 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Uva10617AgainPalindrome
+ * Problem Uva1362
  */
-public class Uva10617AgainPalindrome {
+public class Uva1362 {
 
     public void run() {
-        int t = in.nextInt();
-        while(t-->0){
-            char[] s = in.next().toCharArray();
-            int n = s.length;
-            out.println(find(new long[n][n], s, 0, n-1));
-        }
-    }
 
-    private long find(long[][] dp, char[] s, int i, int j) {
-        if(i==j) return 1;
-        if(i>j) return 0;
-        if(dp[i][j]!=0) return dp[i][j];
-        long cnt = 0;
-        for(int k = i; k <= j; ++k){
-            for(int l = k; l <= j; ++l){
-                if(s[k]==s[l]){
-                    cnt+=1 + find(dp,s,k+1, l-1);
-                }
-            }
-        }
-        return dp[i][j] = cnt;
     }
 
     /***********************************************************
@@ -56,5 +36,5 @@ public class Uva10617AgainPalindrome {
         public double nextDouble() {return Double.parseDouble(next());}
     }
     public static void main(String[] args) {
-        Uva10617AgainPalindrome task = new Uva10617AgainPalindrome(); task.run(); task.close();}
+        Uva1362 task = new Uva1362(); task.run(); task.close();}
 }

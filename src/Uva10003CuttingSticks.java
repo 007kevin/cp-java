@@ -2,33 +2,45 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Uva10617AgainPalindrome
+ * Problem Uva10003CuttingSticks
  */
-public class Uva10617AgainPalindrome {
+public class Uva10003CuttingSticks {
 
     public void run() {
-        int t = in.nextInt();
-        while(t-->0){
-            char[] s = in.next().toCharArray();
-            int n = s.length;
-            out.println(find(new long[n][n], s, 0, n-1));
+        while(true){
+            int l = in.nextInt();
+            if(l==0) return;
+            int n = in.nextInt();
+            int[] len = new int[l];
+            for(int i = 0; i < n; ++i) {
+                len[in.nextInt()]=1;
+            }
+            int[][] dp = new int[l][l];
+            Arrays.stream(dp).forEach(arr -> Arrays.fill(arr, -1));
+            out.println(String.format(
+                    "The minimum cutting is %d.",
+                    cost(dp, len, 0, l-1)));
         }
     }
 
-    private long find(long[][] dp, char[] s, int i, int j) {
-        if(i==j) return 1;
-        if(i>j) return 0;
-        if(dp[i][j]!=0) return dp[i][j];
-        long cnt = 0;
+
+    private int cost(int[][] dp, int[] len, int i, int j) {
+        if(j-i+1<=1) return 0;
+        if(dp[i][j]!=-1) return dp[i][j];
+        int c = Integer.MAX_VALUE;
         for(int k = i; k <= j; ++k){
-            for(int l = k; l <= j; ++l){
-                if(s[k]==s[l]){
-                    cnt+=1 + find(dp,s,k+1, l-1);
-                }
+            if(len[k]==1){
+                len[k]=0;
+                c=Math.min(c,
+                        (j-i+1) +
+                        cost(dp, len, i, k-1) +
+                        cost(dp, len, k, j));
+                len[k]=1;
             }
         }
-        return dp[i][j] = cnt;
+        return dp[i][j]=c == Integer.MAX_VALUE ? 0 : c;
     }
+
 
     /***********************************************************
      *                      BOILERPLATE                        *
@@ -56,5 +68,5 @@ public class Uva10617AgainPalindrome {
         public double nextDouble() {return Double.parseDouble(next());}
     }
     public static void main(String[] args) {
-        Uva10617AgainPalindrome task = new Uva10617AgainPalindrome(); task.run(); task.close();}
+        Uva10003CuttingSticks task = new Uva10003CuttingSticks(); task.run(); task.close();}
 }

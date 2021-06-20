@@ -2,32 +2,34 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Uva10617AgainPalindrome
+ * Problem Cf405C
  */
-public class Uva10617AgainPalindrome {
+public class Cf405C {
 
     public void run() {
-        int t = in.nextInt();
-        while(t-->0){
-            char[] s = in.next().toCharArray();
-            int n = s.length;
-            out.println(find(new long[n][n], s, 0, n-1));
-        }
-    }
-
-    private long find(long[][] dp, char[] s, int i, int j) {
-        if(i==j) return 1;
-        if(i>j) return 0;
-        if(dp[i][j]!=0) return dp[i][j];
-        long cnt = 0;
-        for(int k = i; k <= j; ++k){
-            for(int l = k; l <= j; ++l){
-                if(s[k]==s[l]){
-                    cnt+=1 + find(dp,s,k+1, l-1);
-                }
+        int n = in.nextInt();
+        int[][] matrix = new int[n][n];
+        for(int i = 0; i < n; ++i){
+            for(int j = 0; j < n; ++j){
+                matrix[i][j]=in.nextInt();
             }
         }
-        return dp[i][j] = cnt;
+        int p = 0;
+        for(int i = 0; i < n; ++i){
+            p=(p+matrix[i][i])%2;
+        }
+        int q = in.nextInt();
+        while(q-->0){
+            int t = in.nextInt();
+            if(t==1||t==2) {
+                p=(p+1)%2;
+                in.nextInt();
+            }
+            else {
+                out.print(p);
+            }
+        }
+        out.println();
     }
 
     /***********************************************************
@@ -56,5 +58,5 @@ public class Uva10617AgainPalindrome {
         public double nextDouble() {return Double.parseDouble(next());}
     }
     public static void main(String[] args) {
-        Uva10617AgainPalindrome task = new Uva10617AgainPalindrome(); task.run(); task.close();}
+        Cf405C task = new Cf405C(); task.run(); task.close();}
 }

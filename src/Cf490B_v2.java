@@ -2,32 +2,43 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Uva10617AgainPalindrome
+ * Problem Cf490B_v2
  */
-public class Uva10617AgainPalindrome {
+public class Cf490B_v2 {
 
     public void run() {
-        int t = in.nextInt();
-        while(t-->0){
-            char[] s = in.next().toCharArray();
-            int n = s.length;
-            out.println(find(new long[n][n], s, 0, n-1));
+        int n = in.nextInt();
+        Map<Integer, Integer> map = new HashMap<>();
+        Set<Integer> a = new HashSet<>();
+        Set<Integer> b = new HashSet<>();
+        for(int i = 0; i < n; ++i){
+            int ai = in.nextInt();
+            int bi = in.nextInt();
+            map.put(ai,bi);
+            a.add(ai);
+            b.add(bi);
         }
+        List<Integer> list = new ArrayList<>();
+        int first = find(a,b);
+        int second = map.get(0);
+        list.add(first);
+        list.add(second);
+        while(second!=0){
+            list.add(map.get(first));
+            first=second;
+            second=list.get(list.size()-1);
+        }
+        list.stream()
+                .filter(i -> i!=0)
+                .forEach(i -> out.print(i + " "));
+        out.println();
     }
 
-    private long find(long[][] dp, char[] s, int i, int j) {
-        if(i==j) return 1;
-        if(i>j) return 0;
-        if(dp[i][j]!=0) return dp[i][j];
-        long cnt = 0;
-        for(int k = i; k <= j; ++k){
-            for(int l = k; l <= j; ++l){
-                if(s[k]==s[l]){
-                    cnt+=1 + find(dp,s,k+1, l-1);
-                }
-            }
+    int find(Set<Integer> a, Set<Integer> b){
+        for(int ai : a){
+            if(!b.contains(ai)) return ai;
         }
-        return dp[i][j] = cnt;
+        return 0;
     }
 
     /***********************************************************
@@ -56,5 +67,5 @@ public class Uva10617AgainPalindrome {
         public double nextDouble() {return Double.parseDouble(next());}
     }
     public static void main(String[] args) {
-        Uva10617AgainPalindrome task = new Uva10617AgainPalindrome(); task.run(); task.close();}
+        Cf490B_v2 task = new Cf490B_v2(); task.run(); task.close();}
 }

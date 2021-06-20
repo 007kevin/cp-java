@@ -2,32 +2,36 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Uva10617AgainPalindrome
+ * Problem ZojMining
  */
-public class Uva10617AgainPalindrome {
+public class UvaZojMiningV2 {
+
+    Queue<Integer> queue = new PriorityQueue<>();
 
     public void run() {
-        int t = in.nextInt();
-        while(t-->0){
-            char[] s = in.next().toCharArray();
-            int n = s.length;
-            out.println(find(new long[n][n], s, 0, n-1));
-        }
-    }
-
-    private long find(long[][] dp, char[] s, int i, int j) {
-        if(i==j) return 1;
-        if(i>j) return 0;
-        if(dp[i][j]!=0) return dp[i][j];
-        long cnt = 0;
-        for(int k = i; k <= j; ++k){
-            for(int l = k; l <= j; ++l){
-                if(s[k]==s[l]){
-                    cnt+=1 + find(dp,s,k+1, l-1);
-                }
+        while(in.hasNext()){
+            queue.clear();
+            int S = in.nextInt();
+            int W = in.nextInt();
+            int C = in.nextInt();
+            int K = in.nextInt();
+            int M = in.nextInt();
+            int time = 0;
+            int res = 0;
+            int dig = 0;
+            for(int i = 1; i <= K; ++i){
+                queue.add(M*i + S);
             }
+            while(res < 10000){
+                Integer val = queue.remove();
+                Integer next = Math.max(dig, val) + W;
+                dig=next;
+                time = next + S;
+                res+=C;
+                queue.add(next + 2*S);
+            }
+            System.out.println(time);
         }
-        return dp[i][j] = cnt;
     }
 
     /***********************************************************
@@ -56,5 +60,5 @@ public class Uva10617AgainPalindrome {
         public double nextDouble() {return Double.parseDouble(next());}
     }
     public static void main(String[] args) {
-        Uva10617AgainPalindrome task = new Uva10617AgainPalindrome(); task.run(); task.close();}
+        UvaZojMiningV2 task = new UvaZojMiningV2(); task.run(); task.close();}
 }
