@@ -6,64 +6,93 @@ import java.util.*;
  */
 class Main {
 
+    int n;
+    List<Team> list = new ArrayList<>(500);
+    Map<Integer, Team> map = new HashMap<>();
+
     public void run() {
         int t = in.nextInt();
         while(t-->0){
-            int col = in.nextInt();
-            int row = in.nextInt();
-            String[][] s = new String[row+1][col+1];
-            for(int i = 1; i <= row; ++i){
-                for(int j = 1; j <= col; ++j){
-                    s[i][j]=in.next();
+            list.clear();
+            map.clear();
+            n = in.nextInt();
+            for(int i = 0; i < n; ++i){
+                int num = in.nextInt();
+                Team team = new Team(num);
+                map.put(num,team);
+                list.add(team);
+            }
+            for(int i = 0; i < n; ++i){
+                for(int j = i+1; j < n; ++j){
+                    list.get(i).beat.add(list.get(j).num);
                 }
             }
-            for(int i = 1; i <= row; ++i){
-                for(int j = 1; j <= col; ++j){
-                    calc(s, i, j);
-                }
-            }
-            for(int i = 1; i <= row; ++i){
+            if(!populateRelative()) out.println("IMPOSSIBLE");
+            else {
                 StringJoiner joiner = new StringJoiner(" ");
-                for(int j = 1; j <= col; ++j){
-                    joiner.add(s[i][j]);
-                }
-                out.println(joiner.toString());
+                sort().stream()
+                        .map(team -> team.num)
+                        .map(String::valueOf)
+                        .forEach(joiner::add);
+                out.println(joiner);
             }
         }
     }
 
-    public void calc(String[][] s, int r, int c){
-        if(s[r][c].charAt(0) != '=') return;
-        StringTokenizer tok = new StringTokenizer(s[r][c].substring(1), "+");
-        int v = 0;
-        while(tok.hasMoreTokens()){
-            int[] cell = get(tok.nextToken());
-            calc(s, cell[0], cell[1]);
-            v+=Integer.parseInt(s[cell[0]][cell[1]]);
+    boolean populateRelative() {
+        int m = in.nextInt();
+        while(m-->0){
+            int a = in.nextInt();
+            int b = in.nextInt();
+            Team A = map.get(a);
+            Team B = map.get(b);
+            if(A.beat.contains(b)) return false;
+            B.beat.remove(a);
+            A.beat.add(b);
         }
-        s[r][c]=String.valueOf(v);
+        for(Team t : list){
+            if(cycle(t, new HashSet<Integer>())) return false;
+        }
+        return true;
     }
 
-    public int[] get(String x){
-        String col = "";
-        int i;
-        for(i = 0; i < x.length(); i++)
-        {
-            if(x.charAt(i)>='0'&&x.charAt(i)<='9')
-                break;
-            col += x.charAt(i);
+    boolean cycle(Team t, Set<Integer> v){
+        if(v.contains(t.num)) return true;
+        v.add(t.num);
+        for(Integer b : t.beat){
+            if(cycle(map.get(b),v))
+                return true;
         }
-        int factor = 1;
-        int c = 0;
-        for(int k = 0; k < i; k++)
-        {
-            c += factor * (col.charAt(i-k-1) - 'A' + 1);
-            factor *= 26;
-        }
-            
-        int r = Integer.parseInt(x.substring(i));
-        return new int[]{r,c};
+        v.remove(t.num);
+        return false;
     }
+
+    static class Team {
+        int num;
+        NavigableSet<Integer> beat = new TreeSet<>();
+        Team(int num){this.num=num;}
+    }
+
+    List<Team> sort() {
+        List<Team> ts = new ArrayList<>();
+        Set<Integer> inc = new HashSet<>();
+        for(Team t : list){
+            sort(ts,inc,t);
+        }
+        Collections.reverse(ts);
+        return ts;
+    }
+
+    void sort(List<Team> ts, Set<Integer> inc, Team t){
+        if(inc.contains(t.num)) return;
+        for(Integer b : t.beat){
+            Team B = map.get(b);
+            sort(ts,inc,B);
+        }
+        ts.add(t);
+        inc.add(t.num);
+    }
+
 
     /***********************************************************
      *                      BOILERPLATE                        *
