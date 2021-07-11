@@ -1,12 +1,25 @@
 #+STARTUP: showeverything
-* Codeforces Java
-Java setup for solving codeforces problems
+* AtCoder Training Tips:
 
-** Useful guide
-https://codeforces.com/blog/entry/65133
+[[pdfview:[Tutorial] A Way to Practice Competitive Programming.pdf::1][[Tutorial] A Way to Practice Competitive Programming.pdf]]
 
-** Problem list
-https://codeforces.com/problemset/page/1?tags=1400-1600
-https://codeforces.com/problemset?order=BY_SOLVED_DESC&tags=1500-1700
-https://codeforces.com/problemset?order=BY_SOLVED_DESC&tags=1600-1700
+** 3 types of contests in AtCoder
+   - ABC - AtCoder Beginner Contest (500/700/900/1400) in CF difficulty
+   - ARC - AtCoder Regular Contest (900/1400/2100/2600) in CF difficulty
+   - AGC - AtCode Grand Contest (1200/1900/2200/2500/3000) in CF difficulty
+
+** Helper site to know which problems solve/attempted
+   (https://kenkoooo.com/atcoder#/table//)
+
+** 1000 -> 1400
+   Learn to code fast in ABC for problems B and C.
+   Starting from ABC 042, English tutorials are added.
+   There are 84+ ABC at AtCoder. If you solve all B,C
+   you will learn much and be much stronger.
+
+   *tips*
+   - Read tutorial if you cannot reach solution within 15 minutes of thinking (Prob B)
+   - Read tutorial if you cannot reach solution within 30 minutes of thinking (Prob C)
+   - When solving problem, read code of other high-rated coders as they may have faster impl.
+   - For prob C, compile on paper before coding!
 
