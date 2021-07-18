@@ -9,6 +9,8 @@ B https://docs.google.com/spreadsheets/d/197mE4PGe-nwxvW_2116_JkrgclWj9eouMlQjTr
 
 C1 https://docs.google.com/spreadsheets/d/197mE4PGe-nwxvW_2116_JkrgclWj9eouMlQjTr3Omsg/edit#gid=1360475500
 
+C2 https://docs.google.com/spreadsheets/d/197mE4PGe-nwxvW_2116_JkrgclWj9eouMlQjTr3Omsg/edit#gid=1560625140
+
 Timus: 257467OU
 
 * Good resources
@@ -64,3 +66,26 @@ editorial because it is a bit harder than you = this is great. You
 learn much more from these problems than ones you get by yourself in <
 20 thinking minutes. So don't feel bad.
 
+* AtCoder Training Tips:
+
+https://atcoder.jp/contests/archive?category=0&keyword=&page=4&ratedType=1
+
+** 3 types of contests in AtCoder
+   - ABC - AtCoder Beginner Contest (500/700/900/1400) in CF difficulty
+   - ARC - AtCoder Regular Contest (900/1400/2100/2600) in CF difficulty
+   - AGC - AtCode Grand Contest (1200/1900/2200/2500/3000) in CF difficulty
+
+** Helper site to know which problems solve/attempted
+   (https://kenkoooo.com/atcoder#/table//)
+
+** 1000 -> 1400
+   Learn to code fast in ABC for problems B and C.
+   Starting from ABC 042, English tutorials are added.
+   There are 84+ ABC at AtCoder. If you solve all B,C
+   you will learn much and be much stronger.
+
+   *tips*
+   - Read tutorial if you cannot reach solution within 15 minutes of thinking (Prob B)
+   - Read tutorial if you cannot reach solution within 30 minutes of thinking (Prob C)
+   - When solving problem, read code of other high-rated coders as they may have faster impl.
+   - For prob C, compile on paper before coding!

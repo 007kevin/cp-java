@@ -2,9 +2,9 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Main
+ * Problem Uva10462
  */
-class Main {
+public class Uva10462 {
 
     public void run() {
         int t = in.nextInt();
@@ -120,5 +120,5 @@ class Main {
         public double nextDouble() {return Double.parseDouble(next());}
     }
     public static void main(String[] args) {
-        Main task = new Main(); task.run(); task.close();}
+        Uva10462 task = new Uva10462(); task.run(); task.close();}
 }
