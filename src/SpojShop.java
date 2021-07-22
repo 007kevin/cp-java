@@ -2,9 +2,9 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Main
+ * Problem SpojShop
  */
-class Main {
+public class SpojShop {
 
     static int[][] moves = new int[][]{
         {0,1},
@@ -95,5 +95,5 @@ class Main {
         public double nextDouble() {return Double.parseDouble(next());}
     }
     public static void main(String[] args) {
-        Main task = new Main(); task.run(); task.close();}
+        SpojShop task = new SpojShop(); task.run(); task.close();}
 }
