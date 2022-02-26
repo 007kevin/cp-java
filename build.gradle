@@ -46,6 +46,7 @@ sourceSets {
     main {
         java {
             srcDirs 'src'
+            srcDirs 'output'
         }
     }
 }
@@ -67,26 +68,3 @@ task runMain(type: JavaExec) {
         main = className
     }
 }
-
-task create(type: Exec)  {
-    workingDir '.'
-    commandLine './create.sh'
-    if (project.hasProperty('problem')) {
-        args(problem)
-    }
-    // logging.captureStandardOutput LogLevel.INFO
-    // doFirst {
-    //     println "hello"
-    // }
-    // doLast {
-    //     if (project.hasProperty('problem')) {
-    //         println problem
-    //         exec {
-    //             executable ''
-    //             args problem
-    //         }
-    //     }
-    // }
-}
-
-
