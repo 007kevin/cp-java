@@ -16,7 +16,6 @@ public class Template {
 
     }
 
-    /************************************************************/
     IR in = new IR(System.in); PrintWriter out = new PrintWriter(
     System.out);  void c()  { out.close();}  static  class  IR  {
     BufferedReader r; StringTokenizer t = null; IR(InputStream s)
@@ -30,5 +29,4 @@ public class Template {
     {return Long.parseLong(next()); } double nextDouble() {return
     Double.parseDouble( next()); } }  public  static  void  main(
     String[] args) {Template t = new Template(); t.run(); t.c();}
-    /************************************************************/
 }
