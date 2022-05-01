@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem   = Main
+ * Problem   = cf276A
  * Date      = Sat Apr 30 21:25:28 PDT 2022
  * Status    =
  * Reading   =
@@ -10,7 +10,7 @@ import java.util.*;
  * Coding    =
  * Debugging =
  */
-public class Main {
+public class cf276A {
 
     public void run() {
         long n = in.nextLong();
@@ -37,7 +37,7 @@ public class Main {
     return t.nextToken();} public int nextInt() {return Integer
     .parseInt(next());} public long nextLong() {return Long.parseLong
     (next());} public double nextDouble() {return Double.parseDouble(
-    next());}} public static void main(String[] args) {Main t =
-    new Main(); t.run(); t.close();}
+    next());}} public static void main(String[] args) {cf276A t =
+    new cf276A(); t.run(); t.close();}
     /***************************************************************/
 }
