@@ -8,5 +8,5 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 NAME=$1
 FILENAME=$NAME.java
 OUTPUT=$DIR/../src/$FILENAME
-cat $DIR/../src/Template.java | sed "s/Template/$NAME/g" > $OUTPUT
+cat $DIR/../src/Template.java | sed "s/Template/$NAME/g" | sed "s/INSERT_DATE/$(date)/g" > $OUTPUT
 echo $OUTPUT

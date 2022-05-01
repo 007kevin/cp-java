@@ -2,67 +2,25 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem Main
+ * Problem   = Main
+ * Date      = Sat Apr 30 20:50:02 PDT 2022
+ * Status    =
+ * Reading   =
+ * Thinking  =
+ * Coding    =
+ * Debugging =
  */
-class Main {
+public class Main {
 
     public void run() {
-        Long n = in.nextLong();
-        Long m = in.nextLong();
-        List<Pair<Long, Long>> list = new ArrayList<>();
-        for(int i = 0; i < m; ++i){
-            list.add(new Pair<Long,Long>(in.nextLong(), in.nextLong()));
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int sum = 0;
+        for(int i = 0; i < n; ++i){
+            int s=in.nextInt();
+            sum+=s+k<=5?1:0;
         }
-        Collections.sort(list, (p1,p2) -> {
-            if(p1.b==p2.b) return 0;
-            if(p1.b>p2.b) return -1;
-            return 1;
-        });
-        Long matches = 0L;
-        for(Pair<Long, Long> p : list){
-            if(n==0) break;
-            matches+=p.b * Math.min(n,p.a);
-            n-=Math.min(n,p.a);
-        }
-        out.println(matches);
-    }
-
-    static class Pair<A, B> implements Comparable<Pair<A, B>> {
-        public A a;
-        public B b;
-        public Pair(Pair<A, B> p) {
-            this(p.a, p.b);
-        }
-
-        public Pair(A a, B b) {
-            this.a = a;
-            this.b = b;
-        }
-
-        public String toString() {
-            return a+" "+b;
-        }
-
-        public int hashCode() {
-            return Objects.hash(a, b);
-        }
-
-        public boolean equals(Object o) {
-            if(o instanceof Pair) {
-                Pair<A,B> p = (Pair<A,B>) o;
-                return a.equals(p.a)&&b.equals(p.b);
-            }
-            return false;
-        }
-
-        @Override
-        public int compareTo(Pair<A, B> p) {
-            int cmp = ((Comparable<A>) a).compareTo(p.a);
-            if(cmp==0) {
-                return ((Comparable<B>) b).compareTo(p.b);
-            }
-            return cmp;
-        }
+        out.println(sum/3);
     }
 
     /***********************************************************

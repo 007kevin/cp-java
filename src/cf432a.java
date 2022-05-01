@@ -2,18 +2,25 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem   = Template
- * Date      = INSERT_DATE
+ * Problem   = cf432a
+ * Date      = Sat Apr 30 20:50:02 PDT 2022
  * Status    =
  * Reading   =
  * Thinking  =
  * Coding    =
  * Debugging =
  */
-public class Template {
+public class cf432a {
 
     public void run() {
-
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int sum = 0;
+        for(int i = 0; i < n; ++i){
+            int s=in.nextInt();
+            sum+=s+k<=5?1:0;
+        }
+        out.println(sum/3);
     }
 
     /***********************************************************
@@ -42,5 +49,5 @@ public class Template {
         public double nextDouble() {return Double.parseDouble(next());}
     }
     public static void main(String[] args) {
-        Template task = new Template(); task.run(); task.close();}
+        cf432a task = new cf432a(); task.run(); task.close();}
 }
