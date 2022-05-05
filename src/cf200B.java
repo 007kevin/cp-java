@@ -22,6 +22,7 @@ public class cf200B {
     }
 
 
+
     /***********************************************************/
     public InputReader in = new InputReader(System.in); public
     PrintWriter out = new PrintWriter(System.out); public void close()
