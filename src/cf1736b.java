@@ -3,34 +3,20 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem    = Main
- * Date       = Sat Oct 22 22:04:57 PDT 2022
+ * Problem    = cf1736b
+ * Date       = Mon Oct 10 07:43:20 PDT 2022
  * ********************
  * Read  Time =
  * Think Time =
- * Code  Time = 0:08:27
+ * Code  Time =
  * Debug Time =
  * Total Time =
  *
  */
-public class Main {
+public class cf1736b {
 
     public void run() {
-        int n = in.nextInt();
-        long k = in.nextLong();
-        int[] a = new int[n];
-        for(int i = 0; i < n; ++i) a[i]=in.nextInt();
-        Arrays.sort(a);
-        int p1 = (int)((k-1)/n);
-        int p2 = (int)((k-1)%n);
-        int dup1 = 0;
-        int dup2 = 0;
-        for(int i = p1; i > 0 && a[i-1]==a[i]; --i) dup1++;
-        for(int i = p1; i < n-1 && a[i+1]==a[i]; ++i) dup2++;
-        int p3 = 0;
-        for(int i = 0; i <= p2+(n*dup1-1); i+=(dup1+dup2+1))p3++;
-        out.printf("p1=%d, p2=%d, dup1=%d, p3=%d\n", p1, p2,dup1,p3);
-        out.println(a[p1] + " " + a[p3]);
+
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -43,6 +29,6 @@ public class Main {
     ){ p();return t.nextToken();}int nextInt() {return Integer.parseInt(next());}
     long nextLong() { return Long.parseLong(next());} double nextDouble(){ return
     Double.parseDouble( next() ); } } public static void main ( String[ ]args ) {
-    Main t=new Main();t.run();t.c();}
+    cf1736b t=new cf1736b();t.run();t.c();}
     /////////////////////////////////////////////////////////////////////////////
 }

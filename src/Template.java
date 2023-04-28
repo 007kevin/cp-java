@@ -1,14 +1,17 @@
+
 import java.io.*;
 import java.util.*;
 
 /**
- * Problem   = Template
- * Date      = INSERT_DATE
- * Status    =
- * Reading   =
- * Thinking  =
- * Coding    =
- * Debugging =
+ * Problem    = Template
+ * Date       = INSERT_DATE
+ * ********************
+ * Read  Time =
+ * Think Time =
+ * Code  Time =
+ * Debug Time =
+ * Total Time =
+ *
  */
 public class Template {
 

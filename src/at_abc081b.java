@@ -1,36 +1,34 @@
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
- * Problem    = Main
- * Date       = Sat Oct 22 22:04:57 PDT 2022
- * ********************
- * Read  Time =
- * Think Time =
- * Code  Time = 0:08:27
- * Debug Time =
- * Total Time =
- *
+ * Problem   = at_abc081b
+ * Date      = Sat Aug 20 20:45:46 PDT 2022
  */
-public class Main {
+public class at_abc081b {
 
     public void run() {
-        int n = in.nextInt();
-        long k = in.nextLong();
-        int[] a = new int[n];
-        for(int i = 0; i < n; ++i) a[i]=in.nextInt();
-        Arrays.sort(a);
-        int p1 = (int)((k-1)/n);
-        int p2 = (int)((k-1)%n);
-        int dup1 = 0;
-        int dup2 = 0;
-        for(int i = p1; i > 0 && a[i-1]==a[i]; --i) dup1++;
-        for(int i = p1; i < n-1 && a[i+1]==a[i]; ++i) dup2++;
-        int p3 = 0;
-        for(int i = 0; i <= p2+(n*dup1-1); i+=(dup1+dup2+1))p3++;
-        out.printf("p1=%d, p2=%d, dup1=%d, p3=%d\n", p1, p2,dup1,p3);
-        out.println(a[p1] + " " + a[p3]);
+        Integer n = in.nextInt();
+        Integer[] a = new Integer[n];
+        for(int i = 0; i < n; ++i)
+            a[i]=in.nextInt();
+        Integer op = Stream.of(a)
+                .map(this::f)
+                .min(Integer::compare)
+                .get();
+        out.println(op);
+        
+    }
+
+    public Integer f(Integer n){
+        int cnt=0;
+        while(n%2==0){
+            cnt++;
+            n/=2;
+        }
+        return cnt;
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -43,6 +41,6 @@ public class Main {
     ){ p();return t.nextToken();}int nextInt() {return Integer.parseInt(next());}
     long nextLong() { return Long.parseLong(next());} double nextDouble(){ return
     Double.parseDouble( next() ); } } public static void main ( String[ ]args ) {
-    Main t=new Main();t.run();t.c();}
+    at_abc081b t=new at_abc081b();t.run();t.c();}
     /////////////////////////////////////////////////////////////////////////////
 }

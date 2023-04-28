@@ -1,14 +1,17 @@
+
 import java.io.*;
 import java.util.*;
 
 /**
- * Problem   = cf199b
- * Date      = Tue Jul  5 20:53:52 PDT 2022
- * Status    =
- * Reading   =
- * Thinking  =
- * Coding    =
- * Debugging =
+ * Problem    = cf199b
+ * Date       = Sun Oct  2 21:53:34 PDT 2022
+ * ********************
+ * Read  Time =
+ * Think Time =
+ * Code  Time =
+ * Debug Time =
+ * Total Time =
+ *
  */
 public class cf199b {
 

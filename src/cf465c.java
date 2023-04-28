@@ -3,34 +3,44 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem    = Main
- * Date       = Sat Oct 22 22:04:57 PDT 2022
+ * Problem    = cf465c
+ * Date       = Wed Oct  5 21:25:18 PDT 2022
  * ********************
- * Read  Time =
+ * Read  Time = 0:01:19
  * Think Time =
- * Code  Time = 0:08:27
+ * Code  Time =
  * Debug Time =
  * Total Time =
  *
  */
-public class Main {
+public class cf465c {
 
     public void run() {
-        int n = in.nextInt();
-        long k = in.nextLong();
-        int[] a = new int[n];
-        for(int i = 0; i < n; ++i) a[i]=in.nextInt();
-        Arrays.sort(a);
-        int p1 = (int)((k-1)/n);
-        int p2 = (int)((k-1)%n);
-        int dup1 = 0;
-        int dup2 = 0;
-        for(int i = p1; i > 0 && a[i-1]==a[i]; --i) dup1++;
-        for(int i = p1; i < n-1 && a[i+1]==a[i]; ++i) dup2++;
-        int p3 = 0;
-        for(int i = 0; i <= p2+(n*dup1-1); i+=(dup1+dup2+1))p3++;
-        out.printf("p1=%d, p2=%d, dup1=%d, p3=%d\n", p1, p2,dup1,p3);
-        out.println(a[p1] + " " + a[p3]);
+        int n=in.nextInt();
+        int p=in.nextInt();
+        char[] s=in.next().toCharArray();
+        for(int i = n-1; i >= 0; --i){
+            if (valid(s,i,p)){
+                out.println(new String(s));
+                return;
+            }
+        }
+        out.println("NO");
+    }
+
+    boolean valid(char[] s, int i, int p){
+        int n = s.length;
+        int j = 1;
+        while(s[i]-'a'+j < p){
+            char c = (char)(s[i]+j++);
+            if(i < n-1 && c == s[i+1]) continue;
+            if(i < n-2 && c == s[i+2]) continue;
+            if(i > 0 && c == s[i-1]) continue;
+            if(i > 1 && c == s[i-2]) continue;
+            s[i]=c;
+            return true;
+        }
+        return false;
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -43,6 +53,6 @@ public class Main {
     ){ p();return t.nextToken();}int nextInt() {return Integer.parseInt(next());}
     long nextLong() { return Long.parseLong(next());} double nextDouble(){ return
     Double.parseDouble( next() ); } } public static void main ( String[ ]args ) {
-    Main t=new Main();t.run();t.c();}
+    cf465c t=new cf465c();t.run();t.c();}
     /////////////////////////////////////////////////////////////////////////////
 }
