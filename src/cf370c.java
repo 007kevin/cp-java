@@ -3,8 +3,8 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem    = Main
- * Date       = Fri Apr 28 22:07:21 PDT 2023
+ * Problem    = 370C
+ * Date       = Thu Apr 27 22:05:57 PDT 2023
  * ********************
  * Read  Time =
  * Think Time =
@@ -13,28 +13,29 @@ import java.util.*;
  * Total Time =
  *
  */
-public class Main {
+public class cf370c {
 
     public void run() {
         int n = in.nextInt();
         int m = in.nextInt();
-        int k = in.nextInt();
-        for (int i = 0; i < n; ++i)
-            for (int j = 0; j < m; ++j)
-                in.nextInt();
-        if(m==1){
-            out.println(0);
-        } else {
-            out.println((m * (m - 1)) / 2);
-            for(int i = 1; i <= m; ++i){
-                for(int j = i+1; j <= m; ++j){
-                    if(k==0){
-                        out.println(i + " " + j);
-                    } else {
-                        out.println(j + " " + i);
-                    }
-                }
-            }
+        Integer[] c = new Integer[n];
+        int[] f = new int[m+1];
+        int max = 0;
+        for(int i = 0; i < n; ++i){
+            c[i]=in.nextInt();
+            f[c[i]]++;
+            max=Math.max(max, f[c[i]]);
+        }
+        Arrays.sort(c, (a, b) -> f[b]-f[a]==0?a-b:f[b]-f[a]);
+        int cnt=0;
+        for(int i = 0; i < n; ++i){
+            int j = (i+max)%n;
+            if(c[i]!=c[j]) cnt++;
+        }
+        out.println(cnt);
+        for(int i = 0; i < n; i++){
+            int j = (i+max)%n;
+            out.println(c[i] + " " + c[j]);
         }
     }
 
@@ -48,6 +49,6 @@ public class Main {
     ){ p();return t.nextToken();}int nextInt() {return Integer.parseInt(next());}
     long nextLong() { return Long.parseLong(next());} double nextDouble(){ return
     Double.parseDouble( next() ); } } public static void main ( String[ ]args ) {
-    Main t=new Main();t.run();t.c();}
+    cf370c t=new cf370c();t.run();t.c();}
     /////////////////////////////////////////////////////////////////////////////
 }

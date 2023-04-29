@@ -4,11 +4,11 @@ import java.util.*;
 
 /**
  * Problem    = cf160c
- * Date       = Sat Oct 22 22:04:57 PDT 2022
+ * Date       = Fri Apr 28 22:06:43 PDT 2023
  * ********************
  * Read  Time =
  * Think Time =
- * Code  Time = 0:08:27
+ * Code  Time =
  * Debug Time =
  * Total Time =
  *
@@ -16,21 +16,7 @@ import java.util.*;
 public class cf160c {
 
     public void run() {
-        int n = in.nextInt();
-        long k = in.nextLong();
-        int[] a = new int[n];
-        for(int i = 0; i < n; ++i) a[i]=in.nextInt();
-        Arrays.sort(a);
-        int p1 = (int)((k-1)/n);
-        int p2 = (int)((k-1)%n);
-        int dup1 = 0;
-        int dup2 = 0;
-        for(int i = p1; i > 0 && a[i-1]==a[i]; --i) dup1++;
-        for(int i = p1; i < n-1 && a[i+1]==a[i]; ++i) dup2++;
-        int p3 = 0;
-        for(int i = 0; i <= p2+(n*dup1-1); i+=(dup1+dup2+1))p3++;
-        out.printf("p1=%d, p2=%d, dup1=%d, p3=%d\n", p1, p2,dup1,p3);
-        out.println(a[p1] + " " + a[p3]);
+
     }
 
     /////////////////////////////////////////////////////////////////////////////

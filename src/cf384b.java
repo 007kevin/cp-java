@@ -3,17 +3,17 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Problem    = Main
+ * Problem    = cf384b
  * Date       = Fri Apr 28 22:07:21 PDT 2023
  * ********************
  * Read  Time =
  * Think Time =
  * Code  Time =
  * Debug Time =
- * Total Time =
+ * Total Time = 30:16
  *
  */
-public class Main {
+public class cf384b {
 
     public void run() {
         int n = in.nextInt();
@@ -48,6 +48,6 @@ public class Main {
     ){ p();return t.nextToken();}int nextInt() {return Integer.parseInt(next());}
     long nextLong() { return Long.parseLong(next());} double nextDouble(){ return
     Double.parseDouble( next() ); } } public static void main ( String[ ]args ) {
-    Main t=new Main();t.run();t.c();}
+    cf384b t=new cf384b();t.run();t.c();}
     /////////////////////////////////////////////////////////////////////////////
 }
